@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void scanWifiList() {
         wifiManager.startScan();
         //mywifilist = WifiManager
+        System.out.println("Scanning starts");
 
     }
 
