@@ -18,9 +18,12 @@ public class ListAdapter extends BaseAdapter {
     LayoutInflater inflater;
     List<ScanResult> wifiList;
 
-    public ListAdapter(Context context, List<ScanResult> wifiList) {
+
+
+    public ListAdapter(Context context, List<ScanResult> wifiList ) {
         this.context = context;
         this.wifiList = wifiList;
+
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
@@ -32,7 +35,7 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return wifiList.get(position);
     }
 
     @Override
@@ -52,14 +55,25 @@ public class ListAdapter extends BaseAdapter {
             holder = new Holder();
 
             holder.tvdetails = (TextView)view.findViewById(R.id.txtWifiName);
+            holder.tvRSSI = (TextView) view.findViewById(R.id.txtWifiRSSI);
+            holder.tvMAC = (TextView) view.findViewById(R.id.txtWifiMAC);
             view.setTag(holder);
+
         } else {
             holder = (Holder)view.getTag();
         }
-        return null;
+
+        holder.tvdetails.setText(wifiList.get(position).SSID);
+        int rssi = wifiList.get(position).level;
+        holder.tvRSSI.setText(Integer.toString(rssi) + "dBm");
+        holder.tvMAC.setText(wifiList.get(position).BSSID);
+
+        return view;
     }
 
     class Holder{
         TextView tvdetails;
+        TextView tvRSSI;
+        TextView tvMAC;
     }
 }
