@@ -15,7 +15,9 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     ListAdapter listAdapter;
     ListView wifilist;
     List<ScanResult> mywifilist;
-    Button  scanWifi_button;
+    ToggleButton scanWifi_button;
     private static final int MY_REQUEST_CODE = 123;
     private static final String LOG_TAG = "Yew Xuan";
 
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         wifiReceiver = new WifiReceiver();
 
         registerReceiver(wifiReceiver,new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        scanWifi_button = findViewById(R.id.scan_wifibutton);
+        scanWifi_button = findViewById(R.id.start_scan);
 
         //enable Wifi if not ON
         if (!wifiManager.isWifiEnabled()) {
@@ -58,11 +61,17 @@ public class MainActivity extends AppCompatActivity {
             wifiManager.setWifiEnabled(true);
         }
 
-        scanWifi_button.setOnClickListener(new View.OnClickListener() {
+        scanWifi_button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    //toggle enabled
+                        scanWifiList();
 
-                    scanWifiList();
+                } else {
+                    //toggle is disabled
+                    stopScanWifi();
+                }
             }
         });
 
@@ -101,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Scanning starts");
     }
 
+    private void stopScanWifi()  {
+        mywifilist = Collections.emptyList();
+        setAdapter();
+        System.out.println("Scanning stop");
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)  {
         Log.d(LOG_TAG, "onRequestPermissionsResult");
@@ -132,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         listAdapter = new ListAdapter(getApplicationContext(), mywifilist);
         wifilist.setAdapter(listAdapter);
     }
+
+
 
     class WifiReceiver extends BroadcastReceiver{
 

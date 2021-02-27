@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
 
     <TextView
         android:id="@+id/txtWifiName"
-        android:layout_width="168dp"
-        android:layout_height="wrap_content"
+        android:layout_width="131dp"
+        android:layout_height="match_parent"
+        android:drawableBottom="@drawable/wifi_signal"
+        android:padding="20dp"
         android:textColor="@color/black"
-        android:textSize="13sp"
-        android:padding="0dp"
+        android:textSize="13sp"></TextView>
 
-        ></TextView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/txtWifiRSSI"
-        android:layout_width="168dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:padding="0dp"
-        android:layout_toRightOf="@id/txtWifiMAC"></TextView>
+        <TextView
+            android:id="@+id/txtWifiMAC"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:padding="0dp"
+            android:text="MAC_address"
+            android:textColor="@color/black"
+            android:textSize="13sp"
 
-    <TextView
-        android:id="@+id/txtWifiMAC"
-        android:layout_width="168dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        android:padding="0dp"
-        android:layout_toRightOf="@id/txtWifiName"
-        ></TextView>
+            ></TextView>
+
+        <TextView
+            android:id="@+id/textWifiDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Distance"
+            android:layout_below="@id/txtWifiMAC"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/txtWifiRSSI"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:textColor="@color/black"
+            android:textSize="13sp"></TextView>
+
+    </LinearLayout>
 
 
+</LinearLayout>
 
-</RelativeLayout>
