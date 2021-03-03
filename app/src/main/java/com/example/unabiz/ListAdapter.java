@@ -80,12 +80,12 @@ public class ListAdapter extends BaseAdapter {
 
         double frequencyInMhz = wifiList.get(position).frequency;
         double distance = Math.round(getdistance(rssi,frequencyInMhz));
-        Log.i("TEst frequency", Double.toString(frequencyInMhz));
-        Log.i("TEst Distance", Double.toString(distance));
+        //Log.i("TEst frequency", Double.toString(frequencyInMhz));
+        //Log.i("TEst Distance", Double.toString(distance));
 
         holder.tvdetails.setText(wifiList.get(position).SSID);
         holder.tvRSSI.setText(Double.toString(rssi) + " dBm");
-        holder.tvMAC.setText(wifiList.get(position).BSSID);
+        holder.tvMAC.setText("(" + wifiList.get(position).BSSID + ")");
         holder.tvdistance.setText("~" + Double.toString(distance) + " metres" );
 
 

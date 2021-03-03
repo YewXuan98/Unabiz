@@ -1,5 +1,6 @@
 package com.example.unabiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -14,20 +15,25 @@ import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Collections;
+import com.google.android.gms.common.util.Base64Utils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.internal.Util;
+
 import java.util.List;
 
 
@@ -39,8 +45,15 @@ public class MainActivity extends AppCompatActivity {
     ListView wifilist;
     List<ScanResult> mywifilist;
     ToggleButton scanWifi_button;
+    Button scan_mode;
+    Button mapping_mode;
+    Button testing_mode;
     private static final int MY_REQUEST_CODE = 123;
     private static final String LOG_TAG = "Yew Xuan";
+    private StringBuilder sb = new StringBuilder();
+
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
     @SuppressLint("WifiManagerLeak")
     @Override
@@ -49,11 +62,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         wifilist = (ListView)findViewById(R.id.myListView);
+        scanWifi_button = findViewById(R.id.start_scan);
+        scan_mode = findViewById(R.id.button_scanmode);
+        mapping_mode= findViewById(R.id.button_mappingmode);
+        testing_mode = findViewById(R.id.button_testmode);
+
         wifiManager =(WifiManager)getSystemService(Context.WIFI_SERVICE);
         wifiReceiver = new WifiReceiver();
 
         registerReceiver(wifiReceiver,new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        scanWifi_button = findViewById(R.id.start_scan);
 
         //enable Wifi if not ON
         if (!wifiManager.isWifiEnabled()) {
@@ -72,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
                     //toggle is disabled
                     stopScanWifi();
                 }
+            }
+        });
+
+        mapping_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Mapping_mode.class);
+                startActivity(intent);
             }
         });
 
@@ -106,12 +131,40 @@ public class MainActivity extends AppCompatActivity {
     private void doStartScanWifi()  {
         this.wifiManager.startScan();
         mywifilist =  wifiManager.getScanResults();
+        sb.append("\n Number of Wifi Connections: " + " " + mywifilist.size() + "\n\n");
+        ;
+        for (int i=0; i < mywifilist.size(); i++) {
+            String bssid = mywifilist.get(i).BSSID;
+            String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
+            Integer rssi = mywifilist.get(i).level;
+            sb.append(new Integer(i+1).toString() + ".");
+            sb.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.hasChild(ssid)){databaseReference.child("WIFI").child(ssid).setValue(rssi.toString());}
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+            //Log.i("WIFI START LIST", mywifilist.get(i).SSID);
+            //Log.i("WIFI START LIST", Integer.toString(mywifilist.get(i).level));
+        }
+
+
+
+        System.out.println(sb);
         setAdapter();
         System.out.println("Scanning starts");
     }
 
     private void stopScanWifi()  {
-        mywifilist = Collections.emptyList();
+        mywifilist = wifiManager.getScanResults();
         setAdapter();
         System.out.println("Scanning stop");
     }
@@ -141,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void setAdapter() {
 
         listAdapter = new ListAdapter(getApplicationContext(), mywifilist);
@@ -149,15 +201,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     class WifiReceiver extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
-
         }
     }
+
+
 
 
 
