@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "855953063754",
+    "project_id": "unabiz",
+    "storage_bucket": "unabiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855953063754:android:c5bcec78c52c89ff084bb3",
+        "android_client_info": {
+          "package_name": "com.example.unabiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855953063754-ims9iefvl4ao1oa4uovggeh81omsjb1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmzCLazLykKA6isbTEz7-qqxyXdZxr_P4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855953063754-ims9iefvl4ao1oa4uovggeh81omsjb1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

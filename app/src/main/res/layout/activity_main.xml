@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/myListView"
+        android:layout_centerHorizontal="true"
+        >
+
+        <Button
+            android:id="@+id/button_scanmode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scan mode" />
+
+        <Button
+            android:id="@+id/button_mappingmode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mapping mode" />
+
+        <Button
+            android:id="@+id/button_testmode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test mode" />
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -14,21 +46,36 @@
         android:text="Available Wifi Networks"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:id="@+id/available_wifi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/scan_wifibutton"
-        android:layout_width="match_parent"
+    <ToggleButton
+        android:id="@+id/start_scan"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:text="Scan Wifi" />
+        android:textOff="Scan"
+        android:textOn="Stop scanning"
+        app:backgroundTint="@android:color/holo_orange_dark"
+        android:layout_below="@id/available_wifi"
+        app:icon="@drawable/play_arrow" />
+
 
     <ListView
         android:id="@+id/myListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"></ListView>
+        android:layout_width="337dp"
+        android:layout_height="421dp"
+        android:layout_below="@id/start_scan"
 
-</LinearLayout>
+        android:layout_marginStart="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="20sp">
+
+    </ListView>
+
+</RelativeLayout>
