@@ -22,19 +22,30 @@
             android:id="@+id/button_scanmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan mode" />
+            android:text="Scan"
+            android:fontFamily="@font/montserrat"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"
+                />
 
         <Button
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mapping mode" />
+            android:text="Map"
+            android:fontFamily="@font/montserrat"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"
+                />
 
         <Button
             android:id="@+id/button_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test mode" />
+            android:text="Test"
+            android:fontFamily="@font/montserrat"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"/>
 
 
     </LinearLayout>
@@ -50,6 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:fontFamily="@font/montserrat"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
@@ -60,7 +72,11 @@
         android:textOn="Stop scanning"
         app:backgroundTint="@android:color/holo_orange_dark"
         android:layout_below="@id/available_wifi"
-        app:icon="@drawable/play_arrow" />
+        app:icon="@drawable/play_arrow"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/montserrat"
+        android:textSize="18sp"
+                  />
 
 
     <ListView
