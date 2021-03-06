@@ -36,6 +36,8 @@ public class Mapping_mode extends AppCompatActivity {
     public Uri mImageUri;
     String IMAGE_KEY = "image";
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +54,13 @@ public class Mapping_mode extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String url_stringText = url_string.getText().toString();
-
                 if(url_stringText.isEmpty()){
                     Toast.makeText(Mapping_mode.this, "Please enter a URL", Toast.LENGTH_SHORT).show();
                 } else {
                     LoadImage loadImage = new LoadImage(PreviewImage);
                     loadImage.execute(url_stringText);
+                    System.out.println(url_stringText);
+
                 }
             }
         });
@@ -65,8 +68,11 @@ public class Mapping_mode extends AppCompatActivity {
         confirm_url_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String url_stringText = url_string.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), Mapping.class);
-                //intent.putExtra(IMAGE_KEY, mImageUri.toString());
+                System.out.println(url_stringText);
+                intent.putExtra(IMAGE_KEY, url_stringText);
+                url_string.setText("");
                 startActivity(intent);
             }
         });
