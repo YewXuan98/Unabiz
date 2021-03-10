@@ -110,7 +110,7 @@ public class Mapping_mode extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             mImageUri = data.getData();
-            System.out.println(mImageUri.toString());
+            //System.out.println(mImageUri.toString());
 
             Picasso.get().load(mImageUri).into(PreviewImage);
         }
