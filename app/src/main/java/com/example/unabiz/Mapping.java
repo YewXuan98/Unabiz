@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.wifi.ScanResult;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,18 +36,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 
 public class Mapping extends AppCompatActivity {
     ImageView PreviewImageMap;
-    Bitmap myBitMap = Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(myBitMap);
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     String IMAGE_KEY = "image";
     EditText x_entry;
     EditText y_entry;
@@ -54,14 +58,18 @@ public class Mapping extends AppCompatActivity {
     List<ScanResult> mywifilist2;
     MainActivity.WifiReceiver wifiReceiver;
     private StringBuilder sbs = new StringBuilder();
-    private static final int PICK_IMAGE_REQUEST =1;
+    private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
     int count = 0;
+    public String imgURL;
+
+
 
     //mapping grids
     int scrWidth, scrHeight;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,24 +101,46 @@ public class Mapping extends AppCompatActivity {
         });
 
         /*LOAD IMAGE INTO MAPPING MODE */
-        Intent intent = getIntent();
-        String img = intent.getStringExtra(IMAGE_KEY);
-        Log.i("URL STRING", img);
-        Log.i("URL STRING", "Image successfully parse");
 
-        Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
-        loadImage.execute(img);
-        canvas.drawCircle(50,50,10, paint);
-        PreviewImageMap.setImageBitmap(myBitMap);
+            Intent intent = getIntent();
+            imgURL = intent.getStringExtra(IMAGE_KEY);
+            Log.i("URL STRING gotten", imgURL);
+            Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
+            loadImage.execute(imgURL);
+            System.out.println(imgURL);
+            //URL image_url = new URL(imgURL);
+
+            //Bitmap bit_image = BitmapFactory.decodeStream(image_url.openConnection().getInputStream());
+            //PreviewImageMap.setImageBitmap(bit_image);
+
+//            Bitmap tempBitmap = Bitmap.createBitmap(bit_image.getWidth(),bit_image.getHeight(), Bitmap.Config.RGB_565);
+//            Canvas tempcanvas = new Canvas(tempBitmap);
+//
+//            Paint myPaint = new Paint();
+//            myPaint.setColor(Color.RED);
+//            myPaint.setStrokeWidth(30);
+//            myPaint.setStyle(Paint.Style.STROKE);
+//
+//            //Draw the image bitmap into canvas
+//            tempcanvas.drawBitmap(bit_image,0,0,null);
+//            tempcanvas.drawCircle(10,10,5, myPaint);
+
+            //Create new image bitmap and attach a brand new canvas
+            //Log.i("URL gotten", image_url.toString());
 
 
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
-
-    private class LoadImage extends AsyncTask<String, Void, Bitmap> {
+    class LoadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
-        public LoadImage(ImageView PreviewImageMap) {
+        Bitmap tempBitmap;
+        public LoadImage(ImageView PreviewImage) {
             this.imageView = PreviewImageMap;
         }
 
@@ -118,9 +148,29 @@ public class Mapping extends AppCompatActivity {
         protected Bitmap doInBackground(String... strings) {
             String URLlink = strings[0];
             Bitmap bitmap = null;
+
+
             try {
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
+
+                tempBitmap = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
+                Canvas tempcanvas = new Canvas(tempBitmap);
+
+                Paint myPaint = new Paint();
+                myPaint.setColor(Color.RED);
+                myPaint.setStrokeWidth(30);
+                myPaint.setStyle(Paint.Style.STROKE);
+                int x1 = 50;
+                int y1 = 50;
+                int x2 = 50;
+                int y2 = 50;
+
+                //Draw the image bitmap into canvas
+                tempcanvas.drawBitmap(bitmap,0,0,null);
+                tempcanvas.drawCircle(50,50,50, myPaint);
+                tempcanvas.drawRoundRect(new RectF(x1,y1,x2,y2), 2, 2, myPaint);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -129,18 +179,21 @@ public class Mapping extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            PreviewImageMap.setImageBitmap(bitmap);
+            //Attach the canvas to the Image view
+            PreviewImageMap.setImageBitmap(tempBitmap);
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             mImageUri = data.getData();
-            System.out.println(mImageUri.toString());
 
-            Picasso.get().load(mImageUri).into(PreviewImageMap);
+
+        } else {
+            Log.i("Failed activity", "Failed activity");
         }
     }
 
@@ -188,42 +241,8 @@ public class Mapping extends AppCompatActivity {
 
     }
 
-    public class MapView extends View {
-        MapView(Context context) {
-            super(context);
-        }
-
-        //called when view is assigned a size
-
-        @Override
-        protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-            super.onSizeChanged(w, h, oldw, oldh);
-            //find screen height and screen width
-            scrHeight = h - getPaddingBottom() - getPaddingTop();
-            scrWidth = w - getPaddingLeft() - getPaddingRight();
-        }
-
-        @Override
-        protected void onDraw(Canvas mapcanvas) {
-            super.onDraw(mapcanvas);
-
-            BitmapFactory.Options opt = new BitmapFactory.Options();
-            opt.inMutable = true;
-            Bitmap mapBM = BitmapFactory.decodeResource(getResources(), R.id.PreviewImageMap, opt);
-            Canvas canv = new Canvas(mapBM); //initialise new canvas to draw onto this image bitmap
-
-            //properties for the path to be drawn
-            Paint myPaint = new Paint();
-            myPaint.setColor(Color.RED);
-            myPaint.setStrokeWidth(15);
-            myPaint.setStyle(Paint.Style.STROKE);
-            canv.drawCircle(8,8,4,myPaint);
-            mapcanvas.drawBitmap(Bitmap.createScaledBitmap(mapBM,scrWidth,scrHeight,false), 0,0,null);
 
 
-
-        }
-    }
 
 
 }
