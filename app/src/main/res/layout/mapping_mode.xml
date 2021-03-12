@@ -2,32 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background = "@drawable/gradient_drawable">
     <TextView
         android:id="@+id/MappingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="13dp"
         android:gravity="center"
-        android:text="Upload Floorplan"
+        android:text="Map"
+        android:textColor="#ffffff"
         android:textSize="36sp"
+        android:fontFamily="@font/montserrat"
         android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-black"/>
+        />
 
     <Button
         android:id="@+id/UrlUpload"
         android:layout_width="328dp"
         android:layout_height="54dp"
+        android:layout_below="@id/UrlEntry"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="UPLOAD FROM URL"
+        android:textColor="#438289"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824"
-        android:layout_below="@id/UrlEntry"
-        android:layout_centerHorizontal="true"/>
+        app:layout_constraintVertical_bias="0.824" />
 
     <ImageView
         android:id="@+id/PreviewImage"
@@ -45,14 +52,21 @@
         android:layout_marginTop="13dp"
         android:gravity="center"
         android:hint="Enter URL Here"
+
+        android:fontFamily="@font/montserrat"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/ConfirmURL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm URL"
+        android:layout_width="328dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/UrlUpload"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/UrlUpload"/>
+        android:layout_marginTop="33dp"
+        android:backgroundTint="#ffffff"
+        android:fontFamily="@font/montserrat"
+        android:text="Confirm URL"
+        android:textColor="#438289"
+        android:textSize="24sp" />
 
 </RelativeLayout>
