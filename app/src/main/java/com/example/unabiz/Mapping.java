@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.wifi.ScanResult;
@@ -20,6 +21,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +66,11 @@ public class Mapping extends AppCompatActivity {
     int count = 0;
     public String imgURL;
 
+    //zooming
+    private ScaleGestureDetector mScaleGestureDetector;
+    private float mScaleFactor = 1.0f;
+
+
 
 
     //mapping grids
@@ -77,6 +85,7 @@ public class Mapping extends AppCompatActivity {
         setContentView(R.layout.mapping_mode_2);
 
         PreviewImageMap = findViewById(R.id.PreviewImageMap);
+        mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         x_entry = findViewById(R.id.x_Entry);
         y_entry = findViewById(R.id.y_Entry);
         map_to_database = findViewById(R.id.map_to_database_button);
@@ -107,36 +116,31 @@ public class Mapping extends AppCompatActivity {
             Log.i("URL STRING gotten", imgURL);
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
             loadImage.execute(imgURL);
+
             System.out.println(imgURL);
-            //URL image_url = new URL(imgURL);
 
-            //Bitmap bit_image = BitmapFactory.decodeStream(image_url.openConnection().getInputStream());
-            //PreviewImageMap.setImageBitmap(bit_image);
-
-//            Bitmap tempBitmap = Bitmap.createBitmap(bit_image.getWidth(),bit_image.getHeight(), Bitmap.Config.RGB_565);
-//            Canvas tempcanvas = new Canvas(tempBitmap);
-//
-//            Paint myPaint = new Paint();
-//            myPaint.setColor(Color.RED);
-//            myPaint.setStrokeWidth(30);
-//            myPaint.setStyle(Paint.Style.STROKE);
-//
-//            //Draw the image bitmap into canvas
-//            tempcanvas.drawBitmap(bit_image,0,0,null);
-//            tempcanvas.drawCircle(10,10,5, myPaint);
-
-            //Create new image bitmap and attach a brand new canvas
-            //Log.i("URL gotten", image_url.toString());
-
-
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
 
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mScaleGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector){
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f,
+                    Math.min(mScaleFactor, 10.0f));
+            PreviewImageMap.setScaleX(mScaleFactor);
+            PreviewImageMap.setScaleY(mScaleFactor);
+            return true;
+        }
+    }
+
     class LoadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
         Bitmap tempBitmap;
@@ -153,23 +157,39 @@ public class Mapping extends AppCompatActivity {
             try {
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
+                scrHeight = bitmap.getHeight();
+                scrWidth = bitmap.getWidth();
 
                 tempBitmap = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempcanvas = new Canvas(tempBitmap);
 
                 Paint myPaint = new Paint();
-                myPaint.setColor(Color.RED);
-                myPaint.setStrokeWidth(30);
+                myPaint.setColor(0xffcccccc);
+                myPaint.setStrokeWidth(10);
                 myPaint.setStyle(Paint.Style.STROKE);
-                int x1 = 50;
-                int y1 = 50;
-                int x2 = 50;
-                int y2 = 50;
+
 
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap,0,0,null);
-                tempcanvas.drawCircle(50,50,50, myPaint);
-                tempcanvas.drawRoundRect(new RectF(x1,y1,x2,y2), 2, 2, myPaint);
+                //tempcanvas.drawCircle(50,50,50, myPaint);
+
+                Path myPath = new Path();
+                int i,k;
+                int division_x = scrWidth/11;
+                int division_y = scrHeight/11;
+                for (i=0; i <= scrWidth; i= i+division_x) {
+                        myPath.moveTo(i, 0);
+                        myPath.lineTo(i, scrHeight);
+                        Log.i("Draw grid x", Integer.toString(i));
+                }
+                for (k=0; k <= scrHeight; k= k+division_y) {
+                    myPath.moveTo(0, k);
+                    myPath.lineTo(scrWidth, k);
+                    Log.i("Draw grid y", Integer.toString(k));
+                }
+
+                tempcanvas.drawPath(myPath, myPaint);
+
 
             } catch (IOException e) {
                 e.printStackTrace();
