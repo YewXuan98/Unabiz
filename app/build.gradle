@@ -46,5 +46,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
 }
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
