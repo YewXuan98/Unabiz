@@ -35,7 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.chrisbanes.photoview.PhotoViewAttacher;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,8 +69,6 @@ public class Mapping extends AppCompatActivity {
 
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
-    //PhotoViewAttacher mAttacher;
-
     //mapping grids
     int scrWidth, scrHeight;
 
@@ -119,8 +117,6 @@ public class Mapping extends AppCompatActivity {
 
             loadImage.execute(imgURL);
 
-
-
 //            System.out.println(imgURL);
 
 
@@ -135,34 +131,15 @@ public class Mapping extends AppCompatActivity {
         return true;
     }
 
-//    private RectF mCurrentViewPort = new RectF(PreviewImageMap.getLeft(),PreviewImageMap.getTop(),PreviewImageMap.getRight(),PreviewImageMap.getBottom());
-//    private Rect mContentRect = new Rect(PreviewImageMap.getLeft(),PreviewImageMap.getTop(),PreviewImageMap.getRight(),PreviewImageMap.getBottom());
-
-//    private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
-//        @Override
-//        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-//            // Pixel offset is the offset in screen pixels, while viewport offset is the
-//            // offset within the current viewport.
-//            float viewportOffsetX = distanceX * mCurrentViewPort.width()
-//                    / mContentRect.width();
-//            float viewportOffsetY = -distanceY *mCurrentViewPort.height()
-//                    / mContentRect.height();
-//
-//            // Updates the viewport, refreshes the display.
-//            setViewportBottomLeft(
-//                    mCurrentViewPort.left + viewportOffsetX,
-//                    mCurrentViewPort.bottom + viewportOffsetY);
-//
-//            return super.onScroll(e1, e2, distanceX, distanceY);
-//        }
-//    }
-
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector){
             mScaleFactor *= scaleGestureDetector.getScaleFactor();
             mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+            Log.i("IV_dimens", String.valueOf(PreviewImageMap.getWidth()));
+            Log.i("IV_dimens", String.valueOf(PreviewImageMap.getHeight()));
+
             PreviewImageMap.setScaleX(mScaleFactor);
             PreviewImageMap.setScaleY(mScaleFactor);
             return true;
@@ -170,29 +147,6 @@ public class Mapping extends AppCompatActivity {
 
     }
 
-    /**
-     * Sets the current viewport (defined by mCurrentViewport) to the given
-     * X and Y positions. Note that the Y value represents the topmost pixel position,
-     * and thus the bottom of the mCurrentViewport rectangle.
-     */
-//    private void setViewportBottomLeft(float x, float y) {
-//        /*
-//         * Constrains within the scroll range. The scroll range is simply the viewport
-//         * extremes (AXIS_X_MAX, etc.) minus the viewport size. For example, if the
-//         * extremes were 0 and 10, and the viewport size was 2, the scroll range would
-//         * be 0 to 8.
-//         */
-//
-//        float curWidth = PreviewImageMap.getWidth();
-//        float curHeight = PreviewImageMap.getHeight();
-//        x = Math.max(AXIS_X_MIN, Math.min(x, AXIS_X_MAX - curWidth));
-//        y = Math.max(AXIS_Y_MIN + curHeight, Math.min(y, AXIS_Y_MAX));
-//
-//        mCurrentViewport.set(x, y - curHeight, x + curWidth, y);
-//
-//        // Invalidates the View to update the display.
-//        ViewCompat.postInvalidateOnAnimation(this);
-//    }
 
     class LoadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
@@ -243,7 +197,6 @@ public class Mapping extends AppCompatActivity {
 
                 tempcanvas.drawPath(myPath, myPaint);
 
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -255,8 +208,6 @@ public class Mapping extends AppCompatActivity {
             //Attach the canvas to the Image view
 
             PreviewImageMap.setImageBitmap(tempBitmap);
-
-            //mAttacher = new PhotoViewAttacher(PreviewImageMap);
 
         }
     }
