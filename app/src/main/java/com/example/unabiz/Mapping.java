@@ -1,15 +1,15 @@
 package com.example.unabiz;
 
-import android.content.BroadcastReceiver;
+import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Canvas;
-import android.graphics.Color;
+
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
+
 import android.net.wifi.ScanResult;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
+
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -34,6 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,13 +43,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.util.List;
 
 
@@ -67,11 +66,10 @@ public class Mapping extends AppCompatActivity {
     public String imgURL;
 
     //zooming
+
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
-
-
-
+    //PhotoViewAttacher mAttacher;
 
     //mapping grids
     int scrWidth, scrHeight;
@@ -79,10 +77,13 @@ public class Mapping extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
+    @SuppressLint("ResourceType")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.mapping_mode_2);
+
 
         PreviewImageMap = findViewById(R.id.PreviewImageMap);
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
@@ -115,13 +116,18 @@ public class Mapping extends AppCompatActivity {
             imgURL = intent.getStringExtra(IMAGE_KEY);
             Log.i("URL STRING gotten", imgURL);
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
+
             loadImage.execute(imgURL);
 
-            System.out.println(imgURL);
+
+
+//            System.out.println(imgURL);
 
 
 
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -129,17 +135,64 @@ public class Mapping extends AppCompatActivity {
         return true;
     }
 
+//    private RectF mCurrentViewPort = new RectF(PreviewImageMap.getLeft(),PreviewImageMap.getTop(),PreviewImageMap.getRight(),PreviewImageMap.getBottom());
+//    private Rect mContentRect = new Rect(PreviewImageMap.getLeft(),PreviewImageMap.getTop(),PreviewImageMap.getRight(),PreviewImageMap.getBottom());
+
+//    private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
+//        @Override
+//        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+//            // Pixel offset is the offset in screen pixels, while viewport offset is the
+//            // offset within the current viewport.
+//            float viewportOffsetX = distanceX * mCurrentViewPort.width()
+//                    / mContentRect.width();
+//            float viewportOffsetY = -distanceY *mCurrentViewPort.height()
+//                    / mContentRect.height();
+//
+//            // Updates the viewport, refreshes the display.
+//            setViewportBottomLeft(
+//                    mCurrentViewPort.left + viewportOffsetX,
+//                    mCurrentViewPort.bottom + viewportOffsetY);
+//
+//            return super.onScroll(e1, e2, distanceX, distanceY);
+//        }
+//    }
+
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector){
             mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f,
-                    Math.min(mScaleFactor, 10.0f));
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
             PreviewImageMap.setScaleX(mScaleFactor);
             PreviewImageMap.setScaleY(mScaleFactor);
             return true;
         }
+
     }
+
+    /**
+     * Sets the current viewport (defined by mCurrentViewport) to the given
+     * X and Y positions. Note that the Y value represents the topmost pixel position,
+     * and thus the bottom of the mCurrentViewport rectangle.
+     */
+//    private void setViewportBottomLeft(float x, float y) {
+//        /*
+//         * Constrains within the scroll range. The scroll range is simply the viewport
+//         * extremes (AXIS_X_MAX, etc.) minus the viewport size. For example, if the
+//         * extremes were 0 and 10, and the viewport size was 2, the scroll range would
+//         * be 0 to 8.
+//         */
+//
+//        float curWidth = PreviewImageMap.getWidth();
+//        float curHeight = PreviewImageMap.getHeight();
+//        x = Math.max(AXIS_X_MIN, Math.min(x, AXIS_X_MAX - curWidth));
+//        y = Math.max(AXIS_Y_MIN + curHeight, Math.min(y, AXIS_Y_MAX));
+//
+//        mCurrentViewport.set(x, y - curHeight, x + curWidth, y);
+//
+//        // Invalidates the View to update the display.
+//        ViewCompat.postInvalidateOnAnimation(this);
+//    }
 
     class LoadImage extends AsyncTask<String, Void, Bitmap> {
         ImageView imageView;
@@ -200,7 +253,11 @@ public class Mapping extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
+
             PreviewImageMap.setImageBitmap(tempBitmap);
+
+            //mAttacher = new PhotoViewAttacher(PreviewImageMap);
+
         }
     }
 
