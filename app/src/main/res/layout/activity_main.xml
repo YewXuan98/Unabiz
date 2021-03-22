@@ -23,28 +23,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
             android:fontFamily="@font/montserrat"
             android:text="Scan"
-            android:textSize="15sp" />
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold"
+
+
+
+            />
 
         <Button
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map"
-            android:fontFamily="@font/montserrat"
-            android:textSize="15sp"
             android:layout_marginHorizontal="10dp"
-                />
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:fontFamily="@font/montserrat"
+            android:text="Map"
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold"
+
+            />
 
         <Button
             android:id="@+id/button_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
             android:fontFamily="@font/montserrat"
+            android:text="Test"
+
+
             android:textSize="15sp"
-            android:layout_marginHorizontal="10dp"/>
+
+
+
+            />
 
 
     </LinearLayout>
@@ -65,17 +89,21 @@
 
     <ToggleButton
         android:id="@+id/start_scan"
-        android:layout_width="140dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/available_wifi"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginTop="3dp"
         android:textOff="Scan"
         android:textOn="Stop scanning"
         app:backgroundTint="@android:color/holo_orange_dark"
-        android:layout_below="@id/available_wifi"
+        android:background="@drawable/rounded_button"
         app:icon="@drawable/play_arrow"
-        android:layout_marginTop="3dp"
-        android:fontFamily="@font/montserrat"
-        android:textSize="18sp"
-                  />
+        android:textStyle="bold"
+
+
+        />
 
 
     <ListView
