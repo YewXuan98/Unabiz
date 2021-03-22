@@ -7,44 +7,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:background = "@drawable/gradient_drawable"
+    tools:context=".MainActivity">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/myListView"
+        android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
-        >
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="76dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_scanmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
             android:fontFamily="@font/montserrat"
             android:text="Scan"
-            android:textSize="15sp" />
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold"
+
+
+
+            />
 
         <Button
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map"
-            android:fontFamily="@font/montserrat"
-            android:textSize="15sp"
             android:layout_marginHorizontal="10dp"
-                />
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:fontFamily="@font/montserrat"
+            android:text="Map"
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold"
+
+            />
 
         <Button
             android:id="@+id/button_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
             android:fontFamily="@font/montserrat"
+            android:text="Test"
+
+
             android:textSize="15sp"
-            android:layout_marginHorizontal="10dp"/>
+
+
+
+            />
 
 
     </LinearLayout>
@@ -54,28 +82,34 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Available Wifi Networks"
+        android:textColor="#ffffff"
+        android:fontFamily="@font/montserrat"
         android:textAlignment="center"
         android:textSize="30sp"
         android:id="@+id/available_wifi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:fontFamily="@font/montserrat"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ToggleButton
         android:id="@+id/start_scan"
-        android:layout_width="140dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/available_wifi"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginTop="3dp"
         android:textOff="Scan"
         android:textOn="Stop scanning"
         app:backgroundTint="@android:color/holo_orange_dark"
-        android:layout_below="@id/available_wifi"
+        android:background="@drawable/rounded_button"
         app:icon="@drawable/play_arrow"
-        android:layout_marginTop="3dp"
-        android:fontFamily="@font/montserrat"
-        android:textSize="18sp"
-                  />
+        android:textStyle="bold"
+
+
+        />
 
 
     <ListView
@@ -83,6 +117,7 @@
         android:layout_width="337dp"
         android:layout_height="421dp"
         android:layout_below="@id/start_scan"
+        android:fontFamily="@font/montserrat"
 
         android:layout_marginStart="20sp"
         android:layout_marginLeft="20sp"
@@ -92,5 +127,8 @@
         android:layout_marginBottom="20sp">
 
     </ListView>
+
+
+
 
 </RelativeLayout>
