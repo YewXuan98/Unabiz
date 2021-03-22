@@ -91,10 +91,17 @@
         android:id="@+id/map_to_database_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Map"
+        android:text="Upload"
+        android:fontFamily="@font/montserrat"
         android:layout_below="@id/y_Entry"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="@color/red"
+        android:textColor="@drawable/button_text_col"
+        android:textStyle="bold"
+        android:textSize="15sp"
         android:layout_centerHorizontal="true"
+
 
 
         />
@@ -112,20 +119,41 @@
             android:id="@+id/button_scanmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan\nmode" />
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"
+            android:text="Scan" />
 
         <Button
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mapping\n mode"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"
+            android:text="Map"
             />
 
         <Button
             android:id="@+id/button_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test\nmode"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/rounded_button"
+            app:backgroundTint="@color/red"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginHorizontal="10dp"
+            android:text="Test"
             />
 
 
