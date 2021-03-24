@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient_drawable">
+
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/bee_recoloured"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginLeft="200sp"
+        android:layout_marginTop="480sp"
+        android:paddingRight="15sp"
+        android:text="UNABIZ"
+        android:textSize="45sp"
+        android:paddingLeft="15sp"
+        android:fontFamily="@font/montserrat"
+        android:textColor="#ffffff"/>
+
+    <Button
+        android:id="@+id/launchbtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="@color/red"
+        android:textColor="@drawable/button_text_col"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat"
+        android:text="Launch"
+        android:textSize="25sp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:paddingTop="1dp"
+        android:padding="1dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+
+
+
+
+    />
+
+</RelativeLayout>
