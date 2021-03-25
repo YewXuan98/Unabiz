@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/TestingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:gravity="center"
+        android:text="Testing Mode"
+        android:textSize="36sp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-black"/>
+
+    <Button
+        android:id="@+id/button_mapping"
+        android:layout_width="328dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/button_testing"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="Mapping Mode"
+        android:background="@drawable/rounded_button"
+        app:backgroundTint="@color/red"
+        android:textColor="@drawable/button_text_col"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/Scan_mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.824" />
+
+    <ImageView
+        android:id="@+id/PreviewImage"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_below="@id/TestingTitle"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/button_testing"
+        android:layout_width="328dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/PreviewImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="Test"
+        android:gravity="center"
+
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/Scan_mode"
+        android:layout_width="328dp"
+        android:layout_height="54dp"
+        android:layout_below="@id/button_mapping"
+
+
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="95dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/montserrat"
+        android:text="Scanning Mode"
+        android:textColor="@drawable/button_text_col"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/green" />
+
+</RelativeLayout>
