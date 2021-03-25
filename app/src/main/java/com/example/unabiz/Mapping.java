@@ -231,7 +231,7 @@ public class Mapping extends AppCompatActivity {
         for (int i=0; i < mywifilist.size(); i++) {
             Log.i("AP" , AP_name);
             String bssid = mywifilist.get(i).BSSID;
-            //String ssid = mywifilist2.get(i).SSID.replace('.', '1'); //replace . with 1
+            //String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
             Integer rssi = mywifilist.get(i).level;
             //sbs.append(new Integer(i+1).toString() + ".");
             //sbs.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
@@ -241,6 +241,11 @@ public class Mapping extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+
+
+                    if(!snapshot.child("WIFI").hasChild(bssid)){
+                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
+                    }
                     if (!snapshot.hasChild(AP_name)){
                         Log.i("send coordinates", x_coor + "sent");
                         databaseReference_una.child(AP_name).child("x").setValue(x_coor);
