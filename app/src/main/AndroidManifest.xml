@@ -17,22 +17,21 @@
         android:theme="@style/Theme.Unabiz"
 
         >
-        <activity android:name=".MainActivity">
+        <activity android:name=".Homepage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".Mapping_mode">
 
         </activity>
         <activity android:name=".Mapping">
-
-        </activity>
-        
-        <activity android:name=".Homepage">
-        
 
         </activity>
 

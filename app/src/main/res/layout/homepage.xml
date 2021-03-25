@@ -21,12 +21,12 @@
 
         android:layout_marginLeft="200sp"
         android:layout_marginTop="480sp"
+        android:fontFamily="@font/montserrat"
+        android:paddingLeft="15sp"
         android:paddingRight="15sp"
         android:text="UNABIZ"
-        android:textSize="45sp"
-        android:paddingLeft="15sp"
-        android:fontFamily="@font/montserrat"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/launchbtn"
