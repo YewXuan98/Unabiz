@@ -56,10 +56,9 @@ public class Mapping extends AppCompatActivity {
     EditText x_entry;
     EditText y_entry;
     Button map_to_database;
-    WifiManager wifiManager;
-    List<ScanResult> mywifilist2;
-    MainActivity.WifiReceiver wifiReceiver;
-    private StringBuilder sbs = new StringBuilder();
+
+    List<ScanResult> mywifilist;
+    //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
     int count = 0;
@@ -72,8 +71,8 @@ public class Mapping extends AppCompatActivity {
     //mapping grids
     int scrWidth, scrHeight;
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    DatabaseReference databaseReference_una = FirebaseDatabase.getInstance().getReference();
+
 
     @SuppressLint("ResourceType")
     @Override
@@ -114,12 +113,7 @@ public class Mapping extends AppCompatActivity {
             imgURL = intent.getStringExtra(IMAGE_KEY);
             Log.i("URL STRING gotten", imgURL);
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
-
             loadImage.execute(imgURL);
-
-//            System.out.println(imgURL);
-
-
 
     }
 
@@ -187,7 +181,7 @@ public class Mapping extends AppCompatActivity {
                 for (i=0; i <= scrWidth; i= i+division_x) {
                         myPath.moveTo(i, 0);
                         myPath.lineTo(i, scrHeight);
-                        Log.i("Draw grid x", Integer.toString(i));
+                        //Log.i("Draw grid x", Integer.toString(i));
                 }
                 for (k=0; k <= scrHeight; k= k+division_y) {
                     myPath.moveTo(0, k);
@@ -206,7 +200,6 @@ public class Mapping extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
-
             PreviewImageMap.setImageBitmap(tempBitmap);
 
         }
@@ -230,27 +223,29 @@ public class Mapping extends AppCompatActivity {
         filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         final WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        mywifilist2 = wifiManager.getScanResults();
-        //System.out.println(mywifilist2.size());
+        mywifilist = wifiManager.getScanResults();
+        System.out.println(mywifilist.size());
         String AP_name = "AP" + count;
         String x_coor = x_entry.getText().toString();
         String y_coord = y_entry.getText().toString();
-        for (int i=0; i < mywifilist2.size(); i++) {
+        for (int i=0; i < mywifilist.size(); i++) {
             Log.i("AP" , AP_name);
-            String bssid = mywifilist2.get(i).BSSID;
+            String bssid = mywifilist.get(i).BSSID;
             //String ssid = mywifilist2.get(i).SSID.replace('.', '1'); //replace . with 1
-            Log.i("AP" , AP_name);
-            Integer rssi = mywifilist2.get(i).level;
+            Integer rssi = mywifilist.get(i).level;
             //sbs.append(new Integer(i+1).toString() + ".");
             //sbs.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.hasChild(AP_name)){
 
-                        databaseReference.child(AP_name).child("x").setValue(x_coor);
-                        databaseReference.child(AP_name).child("y").setValue(y_coord);
-                        databaseReference.child(AP_name).child(bssid).setValue(rssi);
+                    if (!snapshot.hasChild(AP_name)){
+                        Log.i("send coordinates", x_coor + "sent");
+                        databaseReference_una.child(AP_name).child("x").setValue(x_coor);
+                        databaseReference_una.child(AP_name).child("y").setValue(y_coord);
+                        databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
 
                     }
                 }
@@ -268,9 +263,6 @@ public class Mapping extends AppCompatActivity {
         y_entry.setText("");
 
     }
-
-
-
 
 
 }

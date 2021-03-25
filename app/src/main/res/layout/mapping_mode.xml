@@ -16,11 +16,11 @@
 
     <Button
         android:id="@+id/UrlUpload"
-        android:layout_width="328dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/UrlEntry"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="10dp"
 
         android:fontFamily="@font/montserrat"
         android:gravity="center"
@@ -29,8 +29,8 @@
         app:backgroundTint="@color/red"
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/ConfirmURL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,22 +52,25 @@
         android:layout_marginTop="13dp"
         android:gravity="center"
         android:hint="Enter URL Here"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/ConfirmURL"
-        android:layout_width="328dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/UrlUpload"
+
+
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="95dp"
         android:background="@drawable/rounded_button"
-        app:backgroundTint="@color/red"
-        android:textColor="@drawable/button_text_col"
-        android:textStyle="bold"
         android:fontFamily="@font/montserrat"
         android:text="Confirm URL"
-
-        android:textSize="24sp" />
+        android:textColor="@drawable/button_text_col"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/green" />
 
 </RelativeLayout>
