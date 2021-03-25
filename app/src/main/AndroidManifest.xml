@@ -30,6 +30,11 @@
         <activity android:name=".Mapping">
 
         </activity>
+        
+        <activity android:name=".Homepage">
+        
+
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
