@@ -1,4 +1,4 @@
-package com.example.nn_unabiz;
+package com.example.unabiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
