@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 
@@ -33,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="#ffffff"
         android:text="Mapping Mode"
+        android:fontFamily="@font/montserrat"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,13 +46,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <ImageView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/arrow_start"-->
-<!--        android:layout_above="@+id/PreviewImageMap"-->
-<!--        app:srcCompat="@drawable/ic_baseline_arrow_downward_24"-->
-<!--        />-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/arrow_start"-->
+    <!--        android:layout_above="@+id/PreviewImageMap"-->
+    <!--        app:srcCompat="@drawable/ic_baseline_arrow_downward_24"-->
+    <!--        />-->
 
 
     <TextView
@@ -60,12 +63,13 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/gradient_drawable"
-    />
+        />
 
     <EditText
         android:id="@+id/x_Entry"
         android:layout_width="328dp"
         android:layout_height="54dp"
+        android:fontFamily="@font/montserrat"
         android:layout_below="@id/PreviewImageMap"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
@@ -81,6 +85,7 @@
         android:layout_width="328dp"
         android:layout_height="54dp"
         android:layout_below="@id/x_Entry"
+        android:fontFamily="@font/montserrat"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
         android:gravity="center"
@@ -107,7 +112,7 @@
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/red" />
+        />
 
     <Button
         android:id="@+id/map_to_database2_button"
@@ -128,7 +133,7 @@
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/red" />
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -145,7 +150,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:background="@drawable/rounded_button"
-            app:backgroundTint="@color/red"
+
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -158,7 +163,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:background="@drawable/rounded_button"
-            app:backgroundTint="@color/red"
+
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -172,7 +177,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:background="@drawable/rounded_button"
-            app:backgroundTint="@color/red"
+
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
             android:textSize="15sp"
@@ -185,3 +190,4 @@
 
 
 </RelativeLayout>
+
