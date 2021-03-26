@@ -14,7 +14,8 @@
         android:text="Upload Floorplan"
         android:textSize="36sp"
         android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-black"/>
+        android:textColor="#ffffff"
+        android:fontFamily="@font/montserrat"/>
 
     <Button
         android:id="@+id/UrlUpload"
@@ -28,7 +29,7 @@
         android:gravity="center"
         android:text="UPLOAD FROM URL"
         android:background="@drawable/rounded_button"
-        app:backgroundTint="@color/red"
+
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
         android:textSize="15dp"
@@ -53,6 +54,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
         android:gravity="center"
+        android:fontFamily="@font/montserrat"
         android:hint="Enter URL Here"
         android:textSize="20sp" />
 
@@ -73,6 +75,6 @@
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/green" />
+         />
 
 </RelativeLayout>
