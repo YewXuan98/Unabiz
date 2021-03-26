@@ -56,12 +56,14 @@ public class Mapping extends AppCompatActivity {
     EditText x_entry;
     EditText y_entry;
     Button map_to_database;
+    Button map_to_database_2;
 
     List<ScanResult> mywifilist;
     //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
-    int count = 0;
+    int count_ap = 0;
+    int count_dp = 0;
     public String imgURL;
 
     //zooming
@@ -87,6 +89,7 @@ public class Mapping extends AppCompatActivity {
         x_entry = findViewById(R.id.x_Entry);
         y_entry = findViewById(R.id.y_Entry);
         map_to_database = findViewById(R.id.map_to_database_button);
+        map_to_database_2 = findViewById(R.id.map_to_database2_button);
 
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -102,8 +105,27 @@ public class Mapping extends AppCompatActivity {
                         Log.i("x_coor", x_coor);
                         Log.i("y_coor", y_coord);
                         doStartScanWifi();
-                        count +=1;
+                        count_ap +=1;
                     }
+            }
+        });
+
+        map_to_database_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String x_coor = x_entry.getText().toString();
+                String y_coord = y_entry.getText().toString();
+                if(x_coor.isEmpty()|| y_coord.isEmpty()){
+                    Toast.makeText(Mapping.this, "Please enter both coordinates", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Log.i("x_coor", x_coor);
+                    Log.i("y_coor", y_coord);
+                    mapToDatabse_DP();
+                    count_dp +=1;
+                }
+
             }
         });
 
@@ -117,6 +139,106 @@ public class Mapping extends AppCompatActivity {
 
     }
 
+    private void doStartScanWifi()  {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        final WifiManager wifiManager =
+                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        mywifilist = wifiManager.getScanResults();
+        System.out.println(mywifilist.size());
+        String AP_name = "AP" + count_ap;
+        String x_coor = x_entry.getText().toString();
+        String y_coord = y_entry.getText().toString();
+        for (int i=0; i < mywifilist.size(); i++) {
+            Log.i("AP" , AP_name);
+            String bssid = mywifilist.get(i).BSSID;
+            //String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
+            Integer rssi = mywifilist.get(i).level;
+            //sbs.append(new Integer(i+1).toString() + ".");
+            //sbs.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
+
+
+            databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+                    if(!snapshot.child("WIFI").hasChild(bssid)){
+                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
+                    }
+
+                    if (!snapshot.hasChild(AP_name)){
+                        Log.i("send coordinates", x_coor + "sent");
+                        databaseReference_una.child(AP_name).child("x").setValue(x_coor);
+                        databaseReference_una.child(AP_name).child("y").setValue(y_coord);
+                        databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
+
+        x_entry.setText("");
+        y_entry.setText("");
+
+    }
+
+    private void mapToDatabse_DP() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        final WifiManager wifiManager =
+                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        mywifilist = wifiManager.getScanResults();
+        //System.out.println(mywifilist.size());
+        String DP_name = "DP" + count_dp;
+        String x_coor = x_entry.getText().toString();
+        String y_coord = y_entry.getText().toString();
+        for (int i=0; i < mywifilist.size(); i++) {
+            Log.i("DP" , DP_name);
+            String bssid = mywifilist.get(i).BSSID;
+            //String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
+            Integer rssi = mywifilist.get(i).level;
+
+            databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+                    if(!snapshot.child("WIFI").hasChild(bssid)){
+                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
+                    }
+
+                    if (!snapshot.hasChild(DP_name)){
+                        Log.i("send coordinates", x_coor + "sent");
+                        databaseReference_una.child(DP_name).child("x").setValue(x_coor);
+                        databaseReference_una.child(DP_name).child("y").setValue(y_coord);
+                        databaseReference_una.child(DP_name).child(bssid).setValue(rssi);
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
+
+        x_entry.setText("");
+        y_entry.setText("");
+
+    }
 
 
     @Override
@@ -218,56 +340,7 @@ public class Mapping extends AppCompatActivity {
         }
     }
 
-    private void doStartScanWifi()  {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        final WifiManager wifiManager =
-                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        mywifilist = wifiManager.getScanResults();
-        System.out.println(mywifilist.size());
-        String AP_name = "AP" + count;
-        String x_coor = x_entry.getText().toString();
-        String y_coord = y_entry.getText().toString();
-        for (int i=0; i < mywifilist.size(); i++) {
-            Log.i("AP" , AP_name);
-            String bssid = mywifilist.get(i).BSSID;
-            //String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
-            Integer rssi = mywifilist.get(i).level;
-            //sbs.append(new Integer(i+1).toString() + ".");
-            //sbs.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
 
-
-            databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
-                    if(!snapshot.child("WIFI").hasChild(bssid)){
-                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
-                    }
-                    if (!snapshot.hasChild(AP_name)){
-                        Log.i("send coordinates", x_coor + "sent");
-                        databaseReference_una.child(AP_name).child("x").setValue(x_coor);
-                        databaseReference_una.child(AP_name).child("y").setValue(y_coord);
-                        databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-
-        }
-
-        x_entry.setText("");
-        y_entry.setText("");
-
-    }
 
 
 }

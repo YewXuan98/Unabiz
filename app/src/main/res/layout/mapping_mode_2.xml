@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="380dp"
         android:layout_below="@id/MappingTitle"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1dp"
         app:srcCompat="@drawable/ic_launcher_background"
 
         />
@@ -57,7 +57,7 @@
         android:layout_height="289dp"
         android:layout_below="@+id/PreviewImageMap"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:background="@drawable/gradient_drawable"
     />
@@ -68,10 +68,10 @@
         android:layout_height="54dp"
         android:layout_below="@id/PreviewImageMap"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:hint="Enter x coordinate here"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:inputType="number"
 
         />
@@ -82,10 +82,10 @@
         android:layout_height="54dp"
         android:layout_below="@id/x_Entry"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="1dp"
         android:gravity="center"
         android:hint="Enter y coordinate here"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:inputType="number"
         />
 
@@ -93,27 +93,49 @@
         android:id="@+id/map_to_database_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
-        android:fontFamily="@font/montserrat"
         android:layout_below="@id/y_Entry"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/map_to_database2_button"
+        android:layout_toLeftOf="@+id/map_to_database2_button"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/montserrat"
+
+        android:text="Upload"
+        android:textColor="@drawable/button_text_col"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/red" />
+
+    <Button
+        android:id="@+id/map_to_database2_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/y_Entry"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_button"
-        app:backgroundTint="@color/red"
+        android:fontFamily="@font/montserrat"
+
+        android:text="Upload 2"
         android:textColor="@drawable/button_text_col"
-        android:textStyle="bold"
         android:textSize="15sp"
-        android:layout_centerHorizontal="true"
-
-
-
-        />
+        android:textStyle="bold"
+        app:backgroundTint="@color/red" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/map_to_database_button"
-        android:layout_margin="12dp"
+        android:layout_marginTop="2dp"
         android:layout_centerHorizontal="true"
         >
 
