@@ -22,7 +22,7 @@
         android:color="#00ffffff"/>
 
 
-    <item android:state_enabled="false"
-        android:color="@android:color/darker_gray"/>
+    <!--<item android:state_enabled="true"
+        android:color="#00ffffff"/>-->
 
 </shape>
