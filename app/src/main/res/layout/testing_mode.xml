@@ -12,9 +12,11 @@
         android:layout_marginBottom="13dp"
         android:gravity="center"
         android:text="Testing Mode"
+        android:textColor="#ffffff"
         android:textSize="36sp"
+        android:fontFamily="@font/montserrat"
         android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-black"/>
+        />
 
     <Button
         android:id="@+id/button_mapping"
@@ -23,15 +25,15 @@
         android:layout_below="@id/button_testing"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-
+        android:textSize="20sp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="Mapping Mode"
         android:background="@drawable/rounded_button"
-        app:backgroundTint="@color/red"
+
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
-        android:textSize="15dp"
+
         app:layout_constraintBottom_toBottomOf="@id/Scan_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +55,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
         android:text="Test"
+        android:background="@drawable/rounded_button"
         android:gravity="center"
 
         android:textSize="20sp" />
@@ -72,8 +75,8 @@
         android:fontFamily="@font/montserrat"
         android:text="Scanning Mode"
         android:textColor="@drawable/button_text_col"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/green" />
+         />
 
 </RelativeLayout>
