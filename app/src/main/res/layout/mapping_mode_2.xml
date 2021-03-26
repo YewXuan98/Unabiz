@@ -6,7 +6,8 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/gradient_drawable">
 
     <ImageView
         android:id="@+id/PreviewImageMap"
@@ -24,7 +25,7 @@
         android:layout_above="@+id/PreviewImageMap"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="1dp"
-        android:background="@color/white" />
+        android:background="@drawable/gradient_drawable" />
 
 
     <TextView
@@ -58,7 +59,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="0dp"
-        android:background="@color/white" />
+        android:background="@drawable/gradient_drawable"
+    />
 
     <EditText
         android:id="@+id/x_Entry"

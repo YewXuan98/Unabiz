@@ -6,6 +6,7 @@
     android:background="@drawable/gradient_drawable">
 
     <ImageView
+        android:id="@+id/unabeez_img"
         android:layout_width="500dp"
         android:layout_height="500dp"
         android:layout_centerHorizontal="true"
@@ -14,6 +15,7 @@
         />
 
     <TextView
+        android:id="@+id/unabiz_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -30,26 +32,23 @@
 
     <Button
         android:id="@+id/launchbtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="600dp"
-        android:background="@drawable/rounded_button"
-        app:backgroundTint="@color/red"
-        android:textColor="@drawable/button_text_col"
-        android:textStyle="bold"
-        android:fontFamily="@font/montserrat"
-        android:text="Launch"
-        android:textSize="25sp"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:paddingTop="1dp"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/rounded_button"
+        android:fontFamily="@font/montserrat"
         android:padding="1dp"
         android:paddingLeft="10dp"
+        android:paddingTop="1dp"
         android:paddingRight="10dp"
+        android:text="Launch"
+        android:textColor="@drawable/button_text_col"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/red"
+        android:layout_centerHorizontal="true"
 
 
-
-
-
-    />
+        />
 
 </RelativeLayout>
