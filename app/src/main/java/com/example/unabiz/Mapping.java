@@ -57,6 +57,7 @@ public class Mapping extends AppCompatActivity {
     EditText y_entry;
     Button map_to_database;
     Button map_to_database_2;
+    Button gotoTestmode;
 
     List<ScanResult> mywifilist;
     //private StringBuilder sbs = new StringBuilder();
@@ -90,6 +91,7 @@ public class Mapping extends AppCompatActivity {
         y_entry = findViewById(R.id.y_Entry);
         map_to_database = findViewById(R.id.map_to_database_button);
         map_to_database_2 = findViewById(R.id.map_to_database2_button);
+        gotoTestmode = findViewById(R.id.mappingmode_to_testmode);
 
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -126,6 +128,15 @@ public class Mapping extends AppCompatActivity {
                     count_dp +=1;
                 }
 
+            }
+        });
+
+        gotoTestmode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), Testing.class);
+                startActivity(intent);
             }
         });
 

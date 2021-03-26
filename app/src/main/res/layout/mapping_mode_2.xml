@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 
@@ -172,7 +171,7 @@
             />
 
         <Button
-            android:id="@+id/button_testmode"
+            android:id="@+id/mappingmode_to_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"

@@ -24,12 +24,10 @@
         android:layout_below="@id/UrlEntry"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="UPLOAD FROM URL"
         android:background="@drawable/rounded_button"
-
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
         android:textSize="15dp"
