@@ -1,32 +1,17 @@
 package com.example.unabiz;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.OpenableColumns;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.ListResult;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,65 +20,36 @@ public class FireBaseUtils {
     static DatabaseReference myDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
     public static void retrievekeys(final listCallbackInterface callbackAction) {
-        final ArrayList<String> keylist = new ArrayList<>();
-        final ArrayList<String> subkeylist = new ArrayList<>();
 
-
-
-//        final ArrayList<String> keylist2 = new ArrayList<>();
-//        final ArrayList<String> subkeylist2 = new ArrayList<>();
-
-        final HashMap<String, String > ap_mac = new HashMap<>();
-
+        final HashMap<String,Integer> ap_mac = new HashMap<>();
+        final HashMap<String, HashMap<String,Integer>> key_mapping = new HashMap<>();
 
         myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot key_snapshot : snapshot.getChildren()) {
+                    //Log.i("key_key" , key_snapshot.getKey());
+                    if (!ap_mac.isEmpty()){
+                    ap_mac.clear();}
+                    for (DataSnapshot subkey : key_snapshot.getChildren()){
 
-                    String key = key_snapshot.getKey();
-                    Log.i("key_snapshot",key_snapshot.toString());
+                       //Log.i("subkey_key" , subkey.getKey());
+                       //Log.i("subkey_" , (subkey.getValue()).toString());
 
-                    String value = String.valueOf(key_snapshot.child(key));
-                    keylist.add(key);
-                    Log.i("keylist",keylist.toString());
+                        ap_mac.put(subkey.getKey(),  Integer.parseInt(subkey.getValue().toString()));
+                        ap_mac.remove("x");
+                        ap_mac.remove("y");
 
-                    subkeylist.add(value);
-                    Log.i("subkeylist",subkeylist.toString());
-
-                    ap_mac.put(key,value);
-
+                    }
+                    key_mapping.put(key_snapshot.getKey(),ap_mac);
+                    //Log.i("key_mappings", key_mapping.toString() + "\n");
 
                 }
+                //Log.i("ap_mac", ap_mac.toString());
+                //Log.i("key_mappings", key_mapping.toString());
 
-
-
-                Log.i("Hashmap",ap_mac.toString());
-
-
-
-
-//                String snap = snapshot.getKey();
-//                keylist.add(snap);
-//                System.out.println(keylist);
-                HashMap<String, ArrayList > ap_mac = new HashMap<>();
-
-//                for (DataSnapshot key_snapshot : snapshot.getChildren()){
-//                    String key = key_snapshot.getKey();
-//
-//                    for(DataSnapshot mac_snapshot: key_snapshot.getChildren() ){
-//
-//                        String mac = mac_snapshot.getKey();
-//                        keylist.add(mac);
-//                        //String value = String.valueOf(mac_snapshot.getValue());
-//                        //Log.i("Hashmap", mac);
-//                        ap_mac.put(key,keylist);
-//                    }
-//                    //Log.i("Hashmap", ap_mac.toString());
-//
-//                }
-                    callbackAction.onCallback(keylist);
+                    callbackAction.onCallback(key_mapping);
 
             }
 
@@ -105,19 +61,73 @@ public class FireBaseUtils {
 
     }
 
-//    public static void retrieveAP_coordinates(final AP_coordinatesCallbackInterface callbackAction) {
-//        final HashMap<String,HashMap<Integer,Integer>> AP_coordinates_map = new HashMap<>();
-//        final HashMap<String,Point> allLocationcoordinates = new HashMap<>();
-//
-//    }
+    public static void retrieveAP_coordinates(final AP_coordinatesCallbackInterface callbackAction) {
+        final HashMap<String,Integer> coordinates_1 = new HashMap<>();
+        final HashMap<String, HashMap<String,Integer>> coordinates_2 = new HashMap<>();
 
-    interface listCallbackInterface{
-        void onCallback(List<String> wifipoints);
+        myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                for (DataSnapshot key_snapshot : snapshot.getChildren()) {
+
+                    if (!(key_snapshot.getKey() == "WIFI")) {
+                        if (!coordinates_1.isEmpty()){
+                            coordinates_1.clear();}
+                    }
+
+
+
+                    for (DataSnapshot subkey_xy : key_snapshot.getChildren()){
+
+                        //Log.i("x_coordinates_barrier1", x_coo.toString());
+
+                        if(subkey_xy.getKey().equals("x")){
+
+                            Integer x_coo = Integer.parseInt(subkey_xy.getValue().toString());
+                            //Log.i("x_coordinates_barrier2", x_coo.toString());
+                            coordinates_1.put(subkey_xy.getKey(),  x_coo);
+
+                        }
+
+                        if(subkey_xy.getKey().equals("y")){
+
+                            Integer y_coo = Integer.parseInt(subkey_xy.getValue().toString());
+                            //Log.i("y_coordinates_barrier2", y_coo.toString());
+                            coordinates_1.put(subkey_xy.getKey(),  y_coo);
+                        }
+
+                        //Log.i("subkey_xy", subkey_xy.getKey());
+                        Log.i("coordinates_1", coordinates_1.toString());
+
+                    }
+                    coordinates_2.put(key_snapshot.getKey(), coordinates_1);
+
+                    //Log.i("coordinates_mappings", coordinates_2.toString() + "\n");
+
+                }
+                Log.i("coordinates_mappings", coordinates_2.toString() + "\n");
+
+                callbackAction.onCallback(coordinates_2);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
-//    interface AP_coordinatesCallbackInterface{
-//        void onCallback(HashMap<String,HashMap<Integer,Integer>>);
-//    }
+    interface listCallbackInterface{
+        void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints);
+    }
+
+    interface AP_coordinatesCallbackInterface{
+        void onCallback(HashMap<String,HashMap<String,Integer>> coordinates);
+    }
 
 }
 

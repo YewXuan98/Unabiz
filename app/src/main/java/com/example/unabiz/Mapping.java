@@ -97,7 +97,13 @@ public class Mapping extends AppCompatActivity {
 
         final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
             @Override
-            public void onCallback(List<String> wifipoints) {
+            public void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints) {
+
+            }
+        };
+        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
 
             }
         };
@@ -117,9 +123,11 @@ public class Mapping extends AppCompatActivity {
                         Log.i("y_coor", y_coord);
                         doStartScanWifi();
                         count_ap +=1;
+                        Log.i("count_ap", String.valueOf(count_ap));
                     }
 
                     FireBaseUtils.retrievekeys(list_of_wifi_points);
+                    FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
             }
         });
 
@@ -169,17 +177,17 @@ public class Mapping extends AppCompatActivity {
         final WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mywifilist = wifiManager.getScanResults();
-        System.out.println(mywifilist.size());
+        //System.out.println(mywifilist.toString());
         String AP_name = "AP" + count_ap;
-        String x_coor = x_entry.getText().toString();
-        String y_coord = y_entry.getText().toString();
+        Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
+        Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
         for (int i=0; i < mywifilist.size(); i++) {
             Log.i("AP" , AP_name);
+            //Log.i("mywifilist size" , String.valueOf(mywifilist.size()));
             String bssid = mywifilist.get(i).BSSID;
-            //String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
-            Integer rssi = mywifilist.get(i).level;
-            //sbs.append(new Integer(i+1).toString() + ".");
-            //sbs.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
+
+            Integer rssi = (Integer) mywifilist.get(i).level;
+
 
 
             databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -189,13 +197,13 @@ public class Mapping extends AppCompatActivity {
 
 
                     if(!snapshot.child("WIFI").hasChild(bssid)){
-                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
+                        databaseReference_una.child("WIFI").child(bssid).setValue(rssi.intValue());
                     }
 
                     if (!snapshot.hasChild(AP_name)){
-                        Log.i("send coordinates", x_coor + "sent");
-                        databaseReference_una.child(AP_name).child("x").setValue(x_coor);
-                        databaseReference_una.child(AP_name).child("y").setValue(y_coord);
+                        Log.i("send coordinates", x_coordinate + "sent");
+                        databaseReference_una.child(AP_name).child("x").setValue(x_coordinate);
+                        databaseReference_una.child(AP_name).child("y").setValue(y_coordinate);
                         databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
 
                     }
@@ -223,8 +231,8 @@ public class Mapping extends AppCompatActivity {
         mywifilist = wifiManager.getScanResults();
         //System.out.println(mywifilist.size());
         String DP_name = "DP" + count_dp;
-        String x_coor = x_entry.getText().toString();
-        String y_coord = y_entry.getText().toString();
+        Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
+        Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
         for (int i=0; i < mywifilist.size(); i++) {
             Log.i("DP" , DP_name);
             String bssid = mywifilist.get(i).BSSID;
@@ -242,9 +250,9 @@ public class Mapping extends AppCompatActivity {
                     }
 
                     if (!snapshot.hasChild(DP_name)){
-                        Log.i("send coordinates", x_coor + "sent");
-                        databaseReference_una.child(DP_name).child("x").setValue(x_coor);
-                        databaseReference_una.child(DP_name).child("y").setValue(y_coord);
+                        Log.i("send coordinates", x_coordinate + "sent");
+                        databaseReference_una.child(DP_name).child("x").setValue(x_coordinate);
+                        databaseReference_una.child(DP_name).child("y").setValue(y_coordinate);
                         databaseReference_una.child(DP_name).child(bssid).setValue(rssi);
 
                     }
