@@ -41,12 +41,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -93,6 +95,13 @@ public class Mapping extends AppCompatActivity {
         map_to_database_2 = findViewById(R.id.map_to_database2_button);
         gotoTestmode = findViewById(R.id.mappingmode_to_testmode);
 
+        final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
+            @Override
+            public void onCallback(List<String> wifipoints) {
+
+            }
+        };
+
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -109,6 +118,8 @@ public class Mapping extends AppCompatActivity {
                         doStartScanWifi();
                         count_ap +=1;
                     }
+
+                    FireBaseUtils.retrievekeys(list_of_wifi_points);
             }
         });
 
@@ -147,6 +158,8 @@ public class Mapping extends AppCompatActivity {
             Log.i("URL STRING gotten", imgURL);
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
             loadImage.execute(imgURL);
+
+
 
     }
 
