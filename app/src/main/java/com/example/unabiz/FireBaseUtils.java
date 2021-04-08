@@ -63,70 +63,69 @@ public class FireBaseUtils {
 
     public static void retrieveAP_coordinates(final AP_coordinatesCallbackInterface callbackAction) {
 
-        final HashMap<String, HashMap<String,Integer>> coordinates_2 = new HashMap<>();
+        final HashMap<String, HashMap<String,Integer>> coordinates = new HashMap<>();
+        final HashMap<String,HashMap<String,Integer>> mac_rssi = new HashMap<>();
+        final ArrayList<String> mac_addresses_list = new ArrayList<>();
 
         myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Log.i("inside_main","inside_main");
+                for (DataSnapshot key_snapshot : snapshot.getChildren()) {
 
+                    //initialise the ArrayList containing all MAC Addresses
+                    if (key_snapshot.getKey().contains("WIFI")) {
+                        for (DataSnapshot mac_addr : key_snapshot.getChildren()) {
+                            if (mac_addr.getKey().contains(":")){
+                                mac_addresses_list.add(mac_addr.getKey());
+                            } } } }
 
                 for (DataSnapshot key_snapshot : snapshot.getChildren()) {
                     //Log.i("children",key_snapshot.toString());
-                    //if (!(key_snapshot.getKey() == "WIFI")) {
-                    //    if (!coordinates_1.isEmpty()){
-                    //        coordinates_1.clear();
-                    //    Log.i("clear","clear");
-                    //    }
-                    //}
 
-                    HashMap<String,Integer> coordinates_1 = new HashMap<>();
+                    HashMap<String,Integer> coordinates_inner = new HashMap<>();
+                    HashMap<String,Integer> mac_rssi_inner = new HashMap<>();
 
                     for (DataSnapshot subkey_xy : key_snapshot.getChildren()){
 
                         //Log.i("subkey_xy",subkey_xy.toString());
-
                         //Log.i("x_coordinates_barrier1", x_coo.toString());
 
                         if(subkey_xy.getKey().equals("x")){
-
                             Integer x_coo = Integer.parseInt(subkey_xy.getValue().toString());
-                            //Log.i("x_coordinates_barrier2", x_coo.toString());
-                            coordinates_1.put(subkey_xy.getKey(),  x_coo);
-                            Log.i("x_coordinates1", coordinates_1.toString());
-                            Log.i("x_check",coordinates_2.toString());
-
-
+                            coordinates_inner.put(subkey_xy.getKey(),  x_coo);
                         }
 
                         if(subkey_xy.getKey().equals("y")){
-
                             Integer y_coo = Integer.parseInt(subkey_xy.getValue().toString());
-                            //Log.i("y_coordinates_barrier2", y_coo.toString());
-                            coordinates_1.put(subkey_xy.getKey(),  y_coo);
-                            Log.i("y_coordinates1", coordinates_1.toString());
-                            Log.i("y_check",coordinates_2.toString());
+                            coordinates_inner.put(subkey_xy.getKey(),  y_coo);
                         }
 
-                        //Log.i("subkey_xy", subkey_xy.getKey());
-                        //Log.i("coordinates_1", coordinates_1.toString());
-                        //Log.i("coordinates1", coordinates_1.toString());
-                        //Log.i("final_check",coordinates_2.toString());
+                        if(!(subkey_xy.getKey().equals("x") || subkey_xy.getKey().equals("y"))){
+                            Integer rssi_val = Integer.parseInt(subkey_xy.getValue().toString());
+                            mac_rssi_inner.put(subkey_xy.getKey(),rssi_val);
 
+
+                        }
                     }
-                    if(!coordinates_2.containsKey(key_snapshot.getKey())){
-                        Log.i("log","key is already inside");
-                        Log.i("log_key",key_snapshot.getKey());
-                        Log.i("log_xy",coordinates_1.toString());
-                        String key = key_snapshot.getKey();
-                        Log.i("check",coordinates_2.toString());
-                    coordinates_2.put(key, coordinates_1);}
 
-                    Log.i("coordinates_mappings", coordinates_2.toString() + "\n");
+
+                    String key = key_snapshot.getKey();
+                    if(!(key.contains("WIFI"))){
+                        coordinates.put(key, coordinates_inner);
+                        mac_rssi.put(key,mac_rssi_inner);
+                    }
+
+                    //Log.i("coordinates_mappings", coordinates.toString() + "\n");
 
                 }
-                //Log.i("coordinates_mappings", coordinates_2.toString() + "\n");
+                Log.i("coordinates_mappings", coordinates.toString() + "\n");
+                for (String ap_key:mac_rssi.keySet()){
+                    Log.i(ap_key, mac_rssi.get(ap_key).toString() + "\n");
+                }
 
-                callbackAction.onCallback(coordinates_2);
+
+                callbackAction.onCallback(coordinates);
 
             }
 

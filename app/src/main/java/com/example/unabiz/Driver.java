@@ -5,10 +5,10 @@ import java.util.List;
 public class Driver {
     //the RSSI value of each WiFi APs
     static double [][] X= {
-            {40,0,40,80},
-            {40,0,20,70},
-            {40,0,10,60},
-            {0,20,40,60},
+            {-40,0,-40,-80},
+            {-40,0,0,-70},
+            {-40,0,-10,-60},
+            {0,-20,-40,-60},
     };
 
     //coordinates relating to map size, one-hot encoding.
