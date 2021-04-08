@@ -126,6 +126,42 @@ public class FireBaseUtils {
                 DataParser dp = new DataParser(coordinates, mac_rssi,mac_addresses_list);
                 dp.parse();
 
+                int hiddenLayerSize = 100;
+                int epoch = 1000;
+
+                NeuralNetwork nn = new NeuralNetwork(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
+
+                List<Double>output;
+
+                nn.fit(dp.input_x, dp.input_y, epoch);
+
+                double [][] input = {
+                        dp.input_x[2],dp.input_x[8],dp.input_x[15],dp.input_x[40]
+                };
+
+
+                for(double[] d :input)
+                {
+                    output = nn.predict(d);
+                    Log.i("output",output.toString());
+                    double max = 0;
+                    int largestIndex = 0;
+                    int x;
+                    int y;
+                    for (int i=0;i<output.size();i++){
+                        if (output.get(i)>max){
+                            max = output.get(i);
+                            largestIndex=i;
+                            Log.i("Largest_Index", String.valueOf(largestIndex));
+                        }
+                    }
+                    x = largestIndex/12; //integer division
+                    y = largestIndex%12; //modulo division
+
+                    Log.i("result_x", String.valueOf(x));
+                    Log.i("result_y", String.valueOf(y));
+
+                }
 
                 callbackAction.onCallback(coordinates);
 
