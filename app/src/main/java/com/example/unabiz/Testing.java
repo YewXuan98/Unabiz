@@ -109,6 +109,7 @@ public class Testing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Canvas canvas = new Canvas(Bitmap.createBitmap(11,11,Bitmap.Config.RGB_565));
+
                 Paint myPaint = new Paint();
                 myPaint.setColor(0xffcccccc);
                 myPaint.setStrokeWidth(10);
