@@ -105,7 +105,6 @@ public class FireBaseUtils {
                             Integer rssi_val = Integer.parseInt(subkey_xy.getValue().toString());
                             mac_rssi_inner.put(subkey_xy.getKey(),rssi_val);
 
-
                         }
                     }
 
@@ -119,10 +118,13 @@ public class FireBaseUtils {
                     //Log.i("coordinates_mappings", coordinates.toString() + "\n");
 
                 }
-                Log.i("coordinates_mappings", coordinates.toString() + "\n");
-                for (String ap_key:mac_rssi.keySet()){
-                    Log.i(ap_key, mac_rssi.get(ap_key).toString() + "\n");
-                }
+                //Log.i("coordinates_mappings", coordinates.toString() + "\n");
+                //for (String ap_key:mac_rssi.keySet()){
+                //    Log.i(ap_key, mac_rssi.get(ap_key).toString() + "\n");
+                //}
+
+                DataParser dp = new DataParser(coordinates, mac_rssi,mac_addresses_list);
+                dp.parse();
 
 
                 callbackAction.onCallback(coordinates);
