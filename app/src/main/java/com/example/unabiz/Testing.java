@@ -54,6 +54,7 @@ public class Testing extends AppCompatActivity {
     ImageView PreviewImageMap;
     String IMAGE_KEY = "image";
 
+    //Buttons on the testing page
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
@@ -65,12 +66,10 @@ public class Testing extends AppCompatActivity {
     public String imgURL;
 
     //zooming
-
     private ScaleGestureDetector mScaleGestureDetector;
     private float mScaleFactor = 1.0f;
     //mapping grids
     int scrWidth, scrHeight;
-
 
     /*DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     final StorageReference storageReference = FirebaseStorage.getInstance().getReference();*/
@@ -82,7 +81,6 @@ public class Testing extends AppCompatActivity {
 
         setContentView(R.layout.testing_mode);
 
-
         PreviewImageMap = findViewById(R.id.PreviewImage);
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
@@ -90,23 +88,44 @@ public class Testing extends AppCompatActivity {
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
 
+        button_mapping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Mapping_mode.class);
+                startActivity(intent);
+            }
+        });
+
+        Scan_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity2Intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(activity2Intent);
+            }
+        });
+
         //needs to draw circle as location of user
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Canvas canvas = new Canvas(Bitmap.createBitmap(11,11,Bitmap.Config.RGB_565));
 
+                Paint myPaint = new Paint();
+                myPaint.setColor(0xffcccccc);
+                myPaint.setStrokeWidth(10);
+                myPaint.setStyle(Paint.Style.STROKE);
+                //tempcanvas.drawCircle(10,10,10, myPaint);
+                canvas.drawCircle(10,10,10, myPaint);
             }
         });
 
 
 
         /*LOAD IMAGE INTO TESTING MODE */
-
         Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
         Log.i("URL STRING gotten", imgURL);
         Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
-
         loadImage.execute(imgURL);
 
 //            System.out.println(imgURL);
@@ -145,31 +164,24 @@ public class Testing extends AppCompatActivity {
         }
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
+        public Bitmap doInBackground(String... strings) {
             String URLlink = strings[0];
             Bitmap bitmap = null;
-
 
             try {
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
-                scrHeight = bitmap.getHeight();
-                scrWidth = bitmap.getWidth();
+                //scrHeight = bitmap.getHeight();
+                //scrWidth = bitmap.getWidth();
 
                 tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempcanvas = new Canvas(tempBitmap);
 
-                Paint myPaint = new Paint();
-                myPaint.setColor(0xffcccccc);
-                myPaint.setStrokeWidth(10);
-                myPaint.setStyle(Paint.Style.STROKE);
-
-
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
-                tempcanvas.drawCircle(1,1,50, myPaint);
 
-                Path myPath = new Path();
+
+                /*Path myPath = new Path();
                 int i, k;
                 int division_x = scrWidth / 11;
                 int division_y = scrHeight / 11;
@@ -184,7 +196,7 @@ public class Testing extends AppCompatActivity {
                     Log.i("Draw grid y", Integer.toString(k));
                 }
 
-                tempcanvas.drawPath(myPath, myPaint);
+                tempcanvas.drawPath(myPath, myPaint);*/
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -195,12 +207,10 @@ public class Testing extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
-
             PreviewImageMap.setImageBitmap(tempBitmap);
 
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
