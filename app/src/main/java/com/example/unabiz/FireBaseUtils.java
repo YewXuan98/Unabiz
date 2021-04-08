@@ -152,7 +152,7 @@ public class FireBaseUtils {
                         if (output.get(i)>max){
                             max = output.get(i);
                             largestIndex=i;
-                            Log.i("Largest_Index", String.valueOf(largestIndex));
+                            //Log.i("Largest_Index", String.valueOf(largestIndex));
                         }
                     }
                     x = largestIndex/12; //integer division
