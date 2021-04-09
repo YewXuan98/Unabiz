@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DataParser {
     HashMap<String, HashMap<String,Integer>> coordinates;
@@ -35,11 +36,8 @@ public class DataParser {
 
     private void setup_input() {
         input_x = new double[location_list.length][mac_names_total];
-        input_y = new double[location_list.length][144];
-        //input_x_train = new double[location_list.length-training_number][mac_names_total];
-        //input_y_train = new double[location_list.length-training_number][144];
-        //input_x_test = new double[training_number][mac_names_total];
-        //input_y_test = new double[training_number][144];
+        input_y = new double[location_list.length][map_size];
+
         Log.i("location_total", String.valueOf(location_list.length));
         Log.i("mac_names_total", String.valueOf(mac_names_total));
     }
@@ -71,8 +69,6 @@ public class DataParser {
         }
 
 
-
-
         /*for (int i=0;i<location_list.length;i++){
             String row = "";
             for (int j=0;j<144;j++){
@@ -88,6 +84,37 @@ public class DataParser {
             }
             Log.i("row_loc",row);
         }*/
+    }
+
+    //TODO TRAIN_TEST
+    public void train_test(){
+        //input_x_train = new double[location_list.length-training_number][mac_names_total];
+        //input_y_train = new double[location_list.length-training_number][map_size];
+        //input_x_test = new double[training_number][mac_names_total];
+        //input_y_test = new double[training_number][map_size];
+    }
+
+    //TODO POINT_TO_INDEX
+    public int[] point_to_index(){
+        return null;
+    }
+
+    //TODO INDEX_TO_POINT
+    public int[] index_to_point(){
+        return null;
+    }
+
+    public int array_find_max(List<Double> output){
+        double max = 0;
+        int largestIndex = 0;
+
+        for (int i=0;i<output.size();i++){
+            if (output.get(i)>max){
+                max = output.get(i);
+                largestIndex=i;
+            }
+        }
+        return largestIndex;
     }
 
 }
