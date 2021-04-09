@@ -82,7 +82,7 @@ public class Testing extends AppCompatActivity {
         setContentView(R.layout.testing_mode);
 
         PreviewImageMap = findViewById(R.id.PreviewImage);
-        mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+        //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         button_mapping = findViewById(R.id.button_mapping);
         button_testing = findViewById(R.id.button_testing);
@@ -108,31 +108,34 @@ public class Testing extends AppCompatActivity {
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Canvas canvas = new Canvas(Bitmap.createBitmap(11,11,Bitmap.Config.RGB_565));
+                Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
+                Canvas canvas = new Canvas(bmp);
 
                 Paint myPaint = new Paint();
                 myPaint.setColor(0xffcccccc);
+                myPaint.setAntiAlias(true);
                 myPaint.setStrokeWidth(10);
                 myPaint.setStyle(Paint.Style.STROKE);
                 //tempcanvas.drawCircle(10,10,10, myPaint);
-                canvas.drawCircle(10,10,10, myPaint);
+                canvas.drawCircle(20,20,1, myPaint);
+                PreviewImageMap.setImageBitmap(bmp);
             }
         });
 
 
 
         /*LOAD IMAGE INTO TESTING MODE */
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
         Log.i("URL STRING gotten", imgURL);
         Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
-        loadImage.execute(imgURL);
+        loadImage.execute(imgURL);*/
 
 //            System.out.println(imgURL);
 
     }
 
-    @Override
+    /*@Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleGestureDetector.onTouchEvent(event);
         return true;
@@ -196,7 +199,7 @@ public class Testing extends AppCompatActivity {
                     Log.i("Draw grid y", Integer.toString(k));
                 }
 
-                tempcanvas.drawPath(myPath, myPaint);*/
+                tempcanvas.drawPath(myPath, myPaint);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -210,9 +213,9 @@ public class Testing extends AppCompatActivity {
             PreviewImageMap.setImageBitmap(tempBitmap);
 
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -222,6 +225,6 @@ public class Testing extends AppCompatActivity {
         } else {
             Log.i("Failed activity", "Failed activity");
         }
-    }
+    }*/
 }
 
