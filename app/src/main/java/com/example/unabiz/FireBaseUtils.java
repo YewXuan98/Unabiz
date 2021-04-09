@@ -160,7 +160,6 @@ public class FireBaseUtils {
 
                     Log.i("result_x", String.valueOf(x));
                     Log.i("result_y", String.valueOf(y));
-
                 }
 
                 callbackAction.onCallback(coordinates);
