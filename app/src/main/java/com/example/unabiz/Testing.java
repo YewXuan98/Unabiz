@@ -145,6 +145,7 @@ public class Testing extends AppCompatActivity {
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+
             mScaleFactor *= scaleGestureDetector.getScaleFactor();
             mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
             Log.i("IV_dimens", String.valueOf(PreviewImageMap.getWidth()));
@@ -182,6 +183,12 @@ public class Testing extends AppCompatActivity {
 
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
+
+                //retrieve map from firebase
+                //retrieve coordinates
+                //Feed into Driver--coordina
+
+
 
 
                 /*Path myPath = new Path();

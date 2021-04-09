@@ -60,6 +60,7 @@ public class Mapping extends AppCompatActivity {
     Button map_to_database;
     Button map_to_database_2;
     Button gotoTestmode;
+    Button gotoscanMode;
 
     List<ScanResult> mywifilist;
     //private StringBuilder sbs = new StringBuilder();
@@ -94,6 +95,7 @@ public class Mapping extends AppCompatActivity {
         map_to_database = findViewById(R.id.map_to_database_button);
         map_to_database_2 = findViewById(R.id.map_to_database2_button);
         gotoTestmode = findViewById(R.id.mappingmode_to_testmode);
+        gotoscanMode = findViewById(R.id.button_scanmode);
 
         final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
             @Override
@@ -126,7 +128,7 @@ public class Mapping extends AppCompatActivity {
                         Log.i("count_ap", String.valueOf(count_ap));
                     }
 
-                    FireBaseUtils.retrievekeys(list_of_wifi_points);
+                    //FireBaseUtils.retrievekeys(list_of_wifi_points);
                     FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
             }
         });
@@ -158,6 +160,15 @@ public class Mapping extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        gotoscanMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         /*LOAD IMAGE INTO MAPPING MODE */
 
