@@ -30,10 +30,8 @@
         android:gravity="center"
         android:text="Mapping Mode"
         android:background="@drawable/rounded_button"
-
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
-
         app:layout_constraintBottom_toBottomOf="@id/Scan_mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

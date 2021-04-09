@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     ToggleButton scanWifi_button;
     Button scan_mode;
     Button mapping_mode;
-    Button testing_mode;
+    Button test_mode;
     private static final int MY_REQUEST_CODE = 123;
     private static final String LOG_TAG = "Yew Xuan";
     private StringBuilder sb = new StringBuilder();
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         scanWifi_button = findViewById(R.id.start_scan);
         scan_mode = findViewById(R.id.button_scanmode);
         mapping_mode= findViewById(R.id.button_mappingmode);
-        testing_mode = findViewById(R.id.button_testmode);
+        test_mode = findViewById(R.id.button_testmode);
 
         wifiManager =(WifiManager)getSystemService(Context.WIFI_SERVICE);
         wifiReceiver = new WifiReceiver();
@@ -96,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Mapping_mode.class);
+                startActivity(intent);
+            }
+        });
+
+        test_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Testing.class);
                 startActivity(intent);
             }
         });
