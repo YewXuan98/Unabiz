@@ -78,4 +78,8 @@ public class NeuralNetwork {
         bias_h.add(h_gradient);
     }
 
+    public static void main(String[] args) {
+        //NeuralNetwork nntesttt = NeuralNetwork()
+    }
+
 }
