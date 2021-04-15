@@ -47,6 +47,7 @@ import com.google.firebase.storage.StorageReference;*/
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 
@@ -83,10 +84,10 @@ public class Testing extends AppCompatActivity {
 
         PreviewImageMap = findViewById(R.id.PreviewImage);
         //mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
-
         button_mapping = findViewById(R.id.button_mapping);
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
+
 
         button_mapping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,11 +105,11 @@ public class Testing extends AppCompatActivity {
             }
         });
 
-        //needs to draw circle as location of user
+        //draw circle as location of user
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
+                /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bmp);
 
                 Paint myPaint = new Paint();
@@ -118,13 +119,16 @@ public class Testing extends AppCompatActivity {
                 myPaint.setStyle(Paint.Style.STROKE);
                 //tempcanvas.drawCircle(10,10,10, myPaint);
                 canvas.drawCircle(20,20,1, myPaint);
-                PreviewImageMap.setImageBitmap(bmp);
+                PreviewImageMap.setImageBitmap(bmp);*/
             }
         });
 
 
-
         /*LOAD IMAGE INTO TESTING MODE */
+        mImageUri = getIntent().getParcelableExtra(IMAGE_KEY);
+        PreviewImageMap.setImageURI(mImageUri);
+
+        //below is similar to what is in Mapping
        /* Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
         Log.i("URL STRING gotten", imgURL);
@@ -134,13 +138,11 @@ public class Testing extends AppCompatActivity {
 //            System.out.println(imgURL);
 
     }
-
     /*@Override
     public boolean onTouchEvent(MotionEvent event) {
         mScaleGestureDetector.onTouchEvent(event);
         return true;
     }
-
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
@@ -155,8 +157,7 @@ public class Testing extends AppCompatActivity {
             PreviewImageMap.setScaleY(mScaleFactor);
             return true;
         }
-
-    }
+    }*/
 
 
     class LoadImage extends AsyncTask<String, Void, Bitmap> {
@@ -173,6 +174,7 @@ public class Testing extends AppCompatActivity {
             Bitmap bitmap = null;
 
             try {
+                //this is for URL link
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
                 //scrHeight = bitmap.getHeight();
@@ -184,9 +186,13 @@ public class Testing extends AppCompatActivity {
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
 
-                //retrieve map from firebase
-                //retrieve coordinates
-                //Feed into Driver--coordina
+                //retrieve coordinates from firebase
+                //FireBaseUtils.retrievekeys(list_of_wifi_points);
+                //FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+
+                //Feed into Driver to get coordinates
+
+                //final coordinates send to test button for drawing
 
 
 
@@ -205,8 +211,7 @@ public class Testing extends AppCompatActivity {
                     myPath.lineTo(scrWidth, k);
                     Log.i("Draw grid y", Integer.toString(k));
                 }
-
-                tempcanvas.drawPath(myPath, myPaint);
+                tempcanvas.drawPath(myPath, myPaint);*/
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -220,9 +225,8 @@ public class Testing extends AppCompatActivity {
             PreviewImageMap.setImageBitmap(tempBitmap);
 
         }
-    }*/
-
-    /*@Override
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -232,6 +236,6 @@ public class Testing extends AppCompatActivity {
         } else {
             Log.i("Failed activity", "Failed activity");
         }
-    }*/
+    }
 }
 
