@@ -124,18 +124,16 @@ public class Testing extends AppCompatActivity {
         });
 
 
-        /*LOAD IMAGE INTO TESTING MODE */
-        mImageUri = getIntent().getParcelableExtra(IMAGE_KEY);
-        PreviewImageMap.setImageURI(mImageUri);
+        /*GET IMAGE FROM MAPPING INTO TESTING MODE */
+
 
         //below is similar to what is in Mapping
-       /* Intent intent = getIntent();
+        Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
-        Log.i("URL STRING gotten", imgURL);
+        System.out.println("URL STRING gotten on testing mode side: " + imgURL);
         Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
-        loadImage.execute(imgURL);*/
+        loadImage.execute(imgURL);
 
-//            System.out.println(imgURL);
 
     }
     /*@Override

@@ -158,8 +158,10 @@ public class Mapping extends AppCompatActivity {
                 //sending image from one activity to another
                 //Uri mImageUri = data.getData();   This line appears in onActivityResult
                 Intent intent = new Intent(getApplicationContext(), Testing.class);
-                intent.putExtra(IMAGE_KEY, mImageUri);
+                System.out.println("Mapping mode to test mode" + imgURL);
+                intent.putExtra(IMAGE_KEY, imgURL);
                 startActivity(intent);
+
             }
         });
 
