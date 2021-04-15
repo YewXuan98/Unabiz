@@ -155,8 +155,10 @@ public class Mapping extends AppCompatActivity {
         gotoTestmode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //sending image from one activity to another
+                //Uri mImageUri = data.getData();   This line appears in onActivityResult
                 Intent intent = new Intent(getApplicationContext(), Testing.class);
+                intent.putExtra(IMAGE_KEY, mImageUri);
                 startActivity(intent);
             }
         });
