@@ -1,8 +1,11 @@
-package com.example.unabiz;
+package com.example.unabiz.exclude;
 
 import android.view.View;
 
 import androidx.test.rule.ActivityTestRule;
+
+import com.example.unabiz.MainActivity;
+import com.example.unabiz.R;
 
 import org.junit.After;
 import org.junit.Before;
