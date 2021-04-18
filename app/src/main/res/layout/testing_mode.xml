@@ -55,7 +55,9 @@
         android:text="Test"
         android:background="@drawable/rounded_button"
         android:gravity="center"
-
+        android:textStyle="bold"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@drawable/button_text_col"
         android:textSize="20sp" />
 
     <Button
