@@ -50,6 +50,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 
 public class Testing extends AppCompatActivity {
@@ -208,7 +209,15 @@ public class Testing extends AppCompatActivity {
                 //FireBaseUtils.retrievekeys(list_of_wifi_points);
                 FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
 
-                //Feed into Driver to get coordinates
+                //TODO
+                //Get mywifilist
+                //pass to dataparser new dp()
+                //input = dp.testparse(mywifilist)
+                //List<Double> output = dp.predict(input) --> assumes the nn is ALREADY trained (need separate button preferably to initate train)
+                //output is the result (check classes for datatype)
+                // x = output[0]
+                //y - output[1]
+
 
                 //final coordinates send to test button for drawing
                 //line 161 and l62 return the x, y coordinates in firebaseutils
