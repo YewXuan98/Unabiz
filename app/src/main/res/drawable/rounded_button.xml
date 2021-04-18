@@ -14,12 +14,12 @@
         android:width="3dp"
         android:color="#FFFFFF" />
 
-    <item android:state_pressed="true"
-        android:color="#ffffff"/>
+    
 
+    <gradient
 
-    <item android:state_enabled="true"
-        android:color="#00ffffff"/>
+        android:endColor="#00ffffff"
+        android:startColor="#00ffffff" />
 
 
     <!--<item android:state_enabled="true"
