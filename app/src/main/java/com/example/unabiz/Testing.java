@@ -310,7 +310,6 @@ public class Testing extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
-
             PreviewImageMap.setImageBitmap(tempBitmap);
             progressBar.setVisibility(View.INVISIBLE);
 
