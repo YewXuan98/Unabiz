@@ -126,6 +126,7 @@ public class Mapping extends AppCompatActivity {
                         doStartScanWifi();
                         count_ap +=1;
                         Log.i("count_ap", String.valueOf(count_ap));
+                        Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
                     }
 
                     //FireBaseUtils.retrievekeys(list_of_wifi_points);
@@ -147,6 +148,7 @@ public class Mapping extends AppCompatActivity {
                     Log.i("y_coor", y_coord);
                     mapToDatabse_DP();
                     count_dp +=1;
+                    Toast.makeText(Mapping.this, "Loaded DP to database", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -13,24 +13,25 @@
         android:gravity="center"
         android:text="Upload Floorplan"
         android:textSize="36sp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
         android:fontFamily="@font/montserrat"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/UrlUpload"
-        android:layout_width="wrap_content"
+        android:layout_width="186dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/UrlEntry"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="UPLOAD FROM URL"
-        android:background="@drawable/rounded_button"
         android:textColor="@drawable/button_text_col"
-        android:textStyle="bold"
         android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/ConfirmURL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +51,7 @@
         android:layout_height="54dp"
         android:layout_below="@id/PreviewImage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:fontFamily="@font/montserrat"
         android:hint="Enter URL Here"
@@ -58,21 +59,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/ConfirmURL"
-        android:layout_width="wrap_content"
+        android:layout_width="142dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/UrlUpload"
-
-
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
 
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="95dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/montserrat"
         android:text="Confirm URL"
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
-        android:textStyle="bold"
-         />
+        android:textStyle="bold" />
 
 </RelativeLayout>

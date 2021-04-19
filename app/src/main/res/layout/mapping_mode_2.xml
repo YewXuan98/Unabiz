@@ -93,6 +93,7 @@
         android:inputType="number"
         />
 
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/map_to_database_button"
         android:layout_width="wrap_content"
@@ -139,7 +140,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/map_to_database_button"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         >
 

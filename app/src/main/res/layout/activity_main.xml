@@ -17,6 +17,7 @@
         android:orientation="horizontal"
         android:layout_below="@id/myListView"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         >
 
         <androidx.appcompat.widget.AppCompatButton
@@ -86,6 +87,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:fontFamily="@font/montserrat"
+        android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ToggleButton
@@ -95,7 +97,7 @@
         android:layout_below="@id/available_wifi"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/montserrat"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="15dp"
         android:textOff="Scan"
         android:textOn="Stop scanning"
         android:textColor="@drawable/button_text_col"
@@ -115,7 +117,7 @@
 
         android:layout_marginStart="20sp"
         android:layout_marginLeft="20sp"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="30sp"
         android:layout_marginEnd="20sp"
         android:layout_marginRight="20sp"
         android:layout_marginBottom="20sp">
