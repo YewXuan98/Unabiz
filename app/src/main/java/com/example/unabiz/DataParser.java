@@ -15,7 +15,7 @@ public class DataParser {
     int mac_names_total;
     double[][] input_x;
     double[][] input_y;
-    double[] input_x_test;
+
 
     double[] output;
     int map_length=12;
@@ -52,6 +52,7 @@ public class DataParser {
 
             for (int i=0; i<mac_names_total;i++){
                 Integer value = mac_address.get(mac_addresses_list.get(i));
+
                 if (value!=null){
                     input_x[counter][i] = (double)value ;
                 }
@@ -66,12 +67,9 @@ public class DataParser {
         Log.i("DPParse","Parsing is done");
     }
 
-    public void parse_test(List<ScanResult> current_wifi_list) {
+    public double[] parse_test(List<ScanResult> current_wifi_list,ArrayList<String> references) {
         HashMap<String, Integer> wifiHashMap = new HashMap<>();
-        input_x_test = new double[mac_names_total];
-
-
-
+        double[] input_x_test = new double[references.size()];
         for (int i = 0; i < current_wifi_list.size(); i++) {
             String bssid = current_wifi_list.get(i).BSSID;
             Integer rssi = current_wifi_list.get(i).level;
@@ -79,12 +77,18 @@ public class DataParser {
             wifiHashMap.put(bssid, rssi);
         }
 
-        for (int i = 0; i < mac_names_total; i++) {
-            Integer value = wifiHashMap.get(mac_addresses_list.get(i));
+        for (int i = 0; i < references.size(); i++) {
+            Integer value = wifiHashMap.get(references.get(i));
+            Log.i("Iteration", String.valueOf(i));
+            Log.i("Value", String.valueOf(value));
             if (value != null) {
                 input_x_test[i] = (double) value;
             }
+            else{
+                input_x_test[i] = (double) 0;
+            }
         }
+        return input_x_test;
     }
 
     //TODO INDEX_TO_POINT

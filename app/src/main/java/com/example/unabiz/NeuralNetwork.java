@@ -2,10 +2,12 @@ package com.example.unabiz;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NeuralNetwork {
     Matrix weights_ih,weights_ho , bias_h,bias_o;
+    ArrayList<String> references;
     double l_rate=0.01;
 
     private static NeuralNetwork SINGLE_INSTANCE = null;
@@ -18,6 +20,10 @@ public class NeuralNetwork {
             }
         }
             return SINGLE_INSTANCE;
+    }
+
+    public void setupForTest(ArrayList<String> mac_addresses_list){
+        references = mac_addresses_list;
     }
 
     public void setParameters(int i,int h,int o){

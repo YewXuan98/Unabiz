@@ -128,6 +128,7 @@ public class FireBaseUtils {
 
                 NeuralNetwork nn = NeuralNetwork.getInstance();
                 nn.setParameters(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
+                nn.setupForTest(mac_addresses_list);
                 nn.fit(dp.input_x, dp.input_y, epoch);
                 Log.i("NN_Setup","Finish NN Training");
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import android.net.wifi.ScanResult;
@@ -51,6 +52,11 @@ public class Testing extends AppCompatActivity {
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
+
+    boolean isDisplayReady = false;
+    int x;
+    int y;
+
 
     ArrayList<ScanResult> mywifilist;
     String LIST_KEY = "mylist";
@@ -187,24 +193,29 @@ public class Testing extends AppCompatActivity {
                 //TODO
                 NeuralNetwork nn = NeuralNetwork.getInstance();
                 DataParser dp = new DataParser();
-                dp.parse_test(mywifilist);
+                double[] input_x_test = dp.parse_test(mywifilist,nn.references);
                 Log.i("mywifilist",mywifilist.toString());
                 String wifiString = "";
-                for(int i=0;i<dp.input_x_test.length;i++){
+                Log.i("Setting up", "Setting up for print");
+                //Log.i("input x test size", String.valueOf(dp.input_x_test.length));
+                for(int i=0;i<16;i++){
                     System.out.println(i);
-                    wifiString += " " + String.valueOf(dp.input_x_test[i]);
+                    wifiString += " " + String.valueOf(input_x_test[i]);
                 }
                 Log.i("wifiString", wifiString);
 
-                List<Double> output = nn.predict(dp.input_x_test);
+                List<Double> output = nn.predict(input_x_test);
                 Log.i("output",output.toString());
 
                 int largest_index = dp.array_find_max(output);
-                int x = dp.getX(largest_index);
-                int y = dp.getY(largest_index);
+                x = dp.getX(largest_index);
+                y = dp.getY(largest_index);
 
                 Log.i("result_x_test", String.valueOf(x));
                 Log.i("result_y_test", String.valueOf(y));
+
+                isDisplayReady = true;
+
 
             }
         };
@@ -215,6 +226,14 @@ public class Testing extends AppCompatActivity {
             Bitmap bitmap = null;
 
             try {
+
+                Log.i("Test","Training NN from Testing");
+                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+                Log.i("TrainTest","Training NN from Testing Done");
+
+
+                while(!isDisplayReady){}
+
                 //this is for URL link
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
@@ -225,21 +244,24 @@ public class Testing extends AppCompatActivity {
                 Canvas tempcanvas = new Canvas(tempBitmap);
 
                 Paint myPaint = new Paint();
-                myPaint.setColor(0xffcccccc);
+                myPaint.setColor(Color.RED);
                 myPaint.setAntiAlias(true);
-                myPaint.setStrokeWidth(10);
-                myPaint.setStyle(Paint.Style.STROKE);
+                //myPaint.setStrokeWidth(10);
+                myPaint.setStyle(Paint.Style.FILL);
 
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
 
+                Log.i("Value of x before",String.valueOf(x));
+                Log.i("Value of y before", String.valueOf(y));
+                Log.i("Drawing", "Circle gg to be drawn");
+                tempcanvas.drawCircle(x*bitmap.getWidth()/11,y*bitmap.getHeight()/11, (float) Math.sqrt(bitmap.getWidth()*bitmap.getHeight())/55, myPaint);
+                Log.i("Drawn", "Circle is drawn");
+                Log.i("Value of x after",String.valueOf(x));
+                Log.i("Value of y after", String.valueOf(y));
+
                 //retrieve coordinates from firebase
                 //FireBaseUtils.retrievekeys(list_of_wifi_points);
-                Log.i("Test","Training NN from Testing");
-                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
-                Log.i("TrainTest","Training NN from Testing Done");
-
-
 
 
                 //Get mywifilist
@@ -251,9 +273,10 @@ public class Testing extends AppCompatActivity {
                 //y - output[1]
 
 
+
                 //final coordinates send to test button for drawing
                 //line 161 and l62 return the x, y coordinates in firebaseutils
-                tempcanvas.drawCircle(20,20,1, myPaint);
+
 
 
 
