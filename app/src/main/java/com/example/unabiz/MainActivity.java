@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -213,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
+        //int[] myImageList = new int[] {R.drawable.wifi_signal_green, R.drawable.wifi_signal_yellow,R.drawable.wifi_signal_red, R.drawable.wifi_signal, R.drawable.wifi_signal_unusable};
 
         listAdapter = new ListAdapter(getApplicationContext(), mywifilist);
         wifilist.setAdapter(listAdapter);
