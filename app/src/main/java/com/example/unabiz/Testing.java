@@ -2,38 +2,29 @@ package com.example.unabiz;
 
 import android.annotation.SuppressLint;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Canvas;
 
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 
 import android.net.wifi.ScanResult;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -48,11 +39,9 @@ import com.google.firebase.storage.StorageReference;*/
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 
 public class Testing extends AppCompatActivity {
@@ -63,7 +52,11 @@ public class Testing extends AppCompatActivity {
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
-    ProgressBar progressBar;
+
+    boolean isDisplayReady = false;
+    int x;
+    int y;
+
 
     ArrayList<ScanResult> mywifilist;
     String LIST_KEY = "mylist";
@@ -81,8 +74,6 @@ public class Testing extends AppCompatActivity {
     //mapping grids
     int scrWidth, scrHeight;
 
-    //progress bar
-
     /*DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     final StorageReference storageReference = FirebaseStorage.getInstance().getReference();*/
 
@@ -98,10 +89,8 @@ public class Testing extends AppCompatActivity {
         button_mapping = findViewById(R.id.button_mapping);
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
-        progressBar = findViewById(R.id.progressbar_);
 
-        mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
-        System.out.println(mywifilist);
+
 
         button_mapping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,15 +108,23 @@ public class Testing extends AppCompatActivity {
             }
         });
 
+
+        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list) {
+
+            }
+        };
+
         //draw circle as location of user
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
                 Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
                 loadImage.execute(imgURL);
                 /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bmp);
+
 
                 Paint myPaint = new Paint();
                 myPaint.setColor(0xffcccccc);
@@ -188,21 +185,55 @@ public class Testing extends AppCompatActivity {
 
             }
         };
+        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates, HashMap<String, HashMap<String, Integer>> mac_rssi, ArrayList<String> mac_addresses_list) {
+                mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
+                System.out.println(mywifilist);
+                //TODO
+                NeuralNetwork nn = NeuralNetwork.getInstance();
+                DataParser dp = new DataParser();
+                double[] input_x_test = dp.parse_test(mywifilist,nn.references);
+                Log.i("mywifilist",mywifilist.toString());
+                String wifiString = "";
+                Log.i("Setting up", "Setting up for print");
+                //Log.i("input x test size", String.valueOf(dp.input_x_test.length));
+                for(int i=0;i<16;i++){
+                    System.out.println(i);
+                    wifiString += " " + String.valueOf(input_x_test[i]);
+                }
+                Log.i("wifiString", wifiString);
 
+                List<Double> output = nn.predict(input_x_test);
+                Log.i("output",output.toString());
+
+                int largest_index = dp.array_find_max(output);
+                x = dp.getX(largest_index);
+                y = dp.getY(largest_index);
+
+                Log.i("result_x_test", String.valueOf(x));
+                Log.i("result_y_test", String.valueOf(y));
+
+                isDisplayReady = true;
+
+
+            }
+        };
 
         @Override
         public Bitmap doInBackground(String... strings) {
             String URLlink = strings[0];
             Bitmap bitmap = null;
 
-            final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
-                @Override
-                public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
-
-                }
-            };
-
             try {
+
+                Log.i("Test","Training NN from Testing");
+                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+                Log.i("TrainTest","Training NN from Testing Done");
+
+
+                while(!isDisplayReady){}
+
                 //this is for URL link
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
                 bitmap = BitmapFactory.decodeStream(inputStream);
@@ -213,19 +244,26 @@ public class Testing extends AppCompatActivity {
                 Canvas tempcanvas = new Canvas(tempBitmap);
 
                 Paint myPaint = new Paint();
-                myPaint.setColor(0xffcccccc);
+                myPaint.setColor(Color.RED);
                 myPaint.setAntiAlias(true);
-                myPaint.setStrokeWidth(10);
-                myPaint.setStyle(Paint.Style.STROKE);
+                //myPaint.setStrokeWidth(10);
+                myPaint.setStyle(Paint.Style.FILL);
 
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
 
+                Log.i("Value of x before",String.valueOf(x));
+                Log.i("Value of y before", String.valueOf(y));
+                Log.i("Drawing", "Circle gg to be drawn");
+                tempcanvas.drawCircle(x*bitmap.getWidth()/11,y*bitmap.getHeight()/11, (float) Math.sqrt(bitmap.getWidth()*bitmap.getHeight())/55, myPaint);
+                Log.i("Drawn", "Circle is drawn");
+                Log.i("Value of x after",String.valueOf(x));
+                Log.i("Value of y after", String.valueOf(y));
+
                 //retrieve coordinates from firebase
                 //FireBaseUtils.retrievekeys(list_of_wifi_points);
-                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
 
-                //TODO
+
                 //Get mywifilist
                 //pass to dataparser new dp()
                 //input = dp.testparse(mywifilist)
@@ -235,9 +273,10 @@ public class Testing extends AppCompatActivity {
                 //y - output[1]
 
 
+
                 //final coordinates send to test button for drawing
                 //line 161 and l62 return the x, y coordinates in firebaseutils
-                tempcanvas.drawCircle(20,20,1, myPaint);
+
 
 
 
@@ -269,7 +308,6 @@ public class Testing extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
             PreviewImageMap.setImageBitmap(tempBitmap);
-            progressBar.setVisibility(View.GONE);
 
         }
     }

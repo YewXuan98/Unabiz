@@ -109,7 +109,12 @@ public class Mapping extends AppCompatActivity {
 
             }
         };
+        /*final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
 
+            }
+        };*/
 
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -129,7 +134,6 @@ public class Mapping extends AppCompatActivity {
                         Log.i("count_ap", String.valueOf(count_ap));
                         Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
                     }
-
 
             }
         });
@@ -159,8 +163,6 @@ public class Mapping extends AppCompatActivity {
             public void onClick(View v) {
                 //sending image from one activity to another
                 //Uri mImageUri = data.getData();   This line appears in onActivityResult
-                //FireBaseUtils.retrievekeys(list_of_wifi_points);
-
                 Intent intent = new Intent(getApplicationContext(), Testing.class);
                 System.out.println("Mapping mode to test mode" + imgURL);
                 intent.putExtra(IMAGE_KEY, imgURL);

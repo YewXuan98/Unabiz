@@ -10,11 +10,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.ListResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FireBaseUtils {
     static DatabaseReference myDatabaseRef = FirebaseDatabase.getInstance().getReference();
@@ -122,50 +120,22 @@ public class FireBaseUtils {
                 //for (String ap_key:mac_rssi.keySet()){
                 //    Log.i(ap_key, mac_rssi.get(ap_key).toString() + "\n");
                 //}
-
                 DataParser dp = new DataParser(coordinates, mac_rssi,mac_addresses_list);
                 dp.parse();
 
                 int hiddenLayerSize = 100;
-                int epoch = 1000;
+                int epoch = 100;
 
-                NeuralNetwork nn = new NeuralNetwork(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
-
-                List<Double>output;
-
+                NeuralNetwork nn = NeuralNetwork.getInstance();
+                nn.setParameters(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
+                nn.setupForTest(mac_addresses_list);
                 nn.fit(dp.input_x, dp.input_y, epoch);
+                Log.i("NN_Setup","Finish NN Training");
 
                 //end of nn training
 
-                double [][] input = {
-                        dp.input_x[2],dp.input_x[8],dp.input_x[15],dp.input_x[40]
-                };
 
-
-                for(double[] d :input)
-                {
-                    output = nn.predict(d);
-                    Log.i("output",output.toString());
-                    double max = 0;
-                    int largestIndex = 0;
-                    int x;
-                    int y;
-                    for (int i=0;i<output.size();i++){
-                        if (output.get(i)>max){
-                            max = output.get(i);
-                            largestIndex=i;
-                            //Log.i("Largest_Index", String.valueOf(largestIndex));
-                        }
-                    }
-                    x = largestIndex/12; //integer division
-                    y = largestIndex%12; //modulo division
-
-
-                    Log.i("result_x", String.valueOf(x));
-                    Log.i("result_y", String.valueOf(y));
-                }
-
-                callbackAction.onCallback(coordinates);
+                callbackAction.onCallback(coordinates,mac_rssi,mac_addresses_list);
 
             }
 
@@ -182,7 +152,7 @@ public class FireBaseUtils {
     }
 
     interface AP_coordinatesCallbackInterface{
-        void onCallback(HashMap<String,HashMap<String,Integer>> coordinates);
+        void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list);
     }
 
 }
