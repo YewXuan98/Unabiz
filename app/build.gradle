@@ -71,15 +71,7 @@ dependencies {
 
 
     //espresso additional dependencies
-    androidtestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    // add this for intent mocking support
-    androidtestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
-
-    // add this for webview testing support
-    androidtestImplementation 'com.android.support.test.espresso:espresso-web:2.2.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     //end of espresso dependencies
 
 
