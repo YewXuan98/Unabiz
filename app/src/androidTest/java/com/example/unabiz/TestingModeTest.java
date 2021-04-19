@@ -22,6 +22,7 @@ public class TestingModeTest {
     public ActivityScenarioRule<Testing> activityRule
             = new ActivityScenarioRule<>(Testing.class);
 
+
     @Test
     public void scanButtonPress() {
         // pressing the button works test
