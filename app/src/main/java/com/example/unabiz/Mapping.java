@@ -48,6 +48,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,7 +63,10 @@ public class Mapping extends AppCompatActivity {
     Button gotoTestmode;
     Button gotoscanMode;
 
-    List<ScanResult> mywifilist;
+    ArrayList<ScanResult> mywifilist;
+    String LIST_KEY = "mylist";
+    private static final String TAG = "MyActivity";
+
     //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
@@ -87,7 +91,6 @@ public class Mapping extends AppCompatActivity {
 
         setContentView(R.layout.mapping_mode_2);
 
-
         PreviewImageMap = findViewById(R.id.PreviewImageMap);
         mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
         x_entry = findViewById(R.id.x_Entry);
@@ -96,6 +99,9 @@ public class Mapping extends AppCompatActivity {
         map_to_database_2 = findViewById(R.id.map_to_database2_button);
         gotoTestmode = findViewById(R.id.mappingmode_to_testmode);
         gotoscanMode = findViewById(R.id.button_scanmode);
+
+        mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
+        System.out.println(mywifilist);
 
         final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
             @Override
@@ -160,6 +166,8 @@ public class Mapping extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Testing.class);
                 System.out.println("Mapping mode to test mode" + imgURL);
                 intent.putExtra(IMAGE_KEY, imgURL);
+                intent.putExtra(LIST_KEY, mywifilist);
+                Log.i(TAG, "for wifi" + mywifilist);
                 startActivity(intent);
 
             }
@@ -186,13 +194,14 @@ public class Mapping extends AppCompatActivity {
 
     }
 
-    private void doStartScanWifi()  {
+    public void doStartScanWifi()  {
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         final WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        mywifilist = wifiManager.getScanResults();
+        mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
         //System.out.println(mywifilist.toString());
+
         String AP_name = "AP" + count_ap;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
         Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
@@ -243,7 +252,7 @@ public class Mapping extends AppCompatActivity {
         filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
         final WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        mywifilist = wifiManager.getScanResults();
+        mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
         //System.out.println(mywifilist.size());
         String DP_name = "DP" + count_dp;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
