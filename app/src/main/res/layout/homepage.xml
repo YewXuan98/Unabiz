@@ -36,7 +36,7 @@
         android:id="@+id/launchbtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="600dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
 
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
