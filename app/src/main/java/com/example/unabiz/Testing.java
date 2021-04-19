@@ -2,37 +2,28 @@ package com.example.unabiz;
 
 import android.annotation.SuppressLint;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Canvas;
 
 import android.graphics.Paint;
-import android.graphics.Path;
 
 import android.net.wifi.ScanResult;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
-import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -47,11 +38,9 @@ import com.google.firebase.storage.StorageReference;*/
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 
 public class Testing extends AppCompatActivity {
@@ -95,8 +84,7 @@ public class Testing extends AppCompatActivity {
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
 
-        mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
-        System.out.println(mywifilist);
+
 
         button_mapping.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +105,7 @@ public class Testing extends AppCompatActivity {
 
         final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
             @Override
-            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+            public void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list) {
 
             }
         };
@@ -126,9 +114,11 @@ public class Testing extends AppCompatActivity {
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+                Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
+                loadImage.execute(imgURL);
                 /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bmp);
+
 
                 Paint myPaint = new Paint();
                 myPaint.setColor(0xffcccccc);
@@ -149,8 +139,7 @@ public class Testing extends AppCompatActivity {
         Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
         System.out.println("URL STRING gotten on testing mode side: " + imgURL);
-        Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
-        loadImage.execute(imgURL);
+
 
 
     }
@@ -192,7 +181,30 @@ public class Testing extends AppCompatActivity {
         };
         final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
             @Override
-            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates, HashMap<String, HashMap<String, Integer>> mac_rssi, ArrayList<String> mac_addresses_list) {
+                mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
+                System.out.println(mywifilist);
+                //TODO
+                NeuralNetwork nn = NeuralNetwork.getInstance();
+                DataParser dp = new DataParser();
+                dp.parse_test(mywifilist);
+                Log.i("mywifilist",mywifilist.toString());
+                String wifiString = "";
+                for(int i=0;i<dp.input_x_test.length;i++){
+                    System.out.println(i);
+                    wifiString += " " + String.valueOf(dp.input_x_test[i]);
+                }
+                Log.i("wifiString", wifiString);
+
+                List<Double> output = nn.predict(dp.input_x_test);
+                Log.i("output",output.toString());
+
+                int largest_index = dp.array_find_max(output);
+                int x = dp.getX(largest_index);
+                int y = dp.getY(largest_index);
+
+                Log.i("result_x_test", String.valueOf(x));
+                Log.i("result_y_test", String.valueOf(y));
 
             }
         };
@@ -223,9 +235,12 @@ public class Testing extends AppCompatActivity {
 
                 //retrieve coordinates from firebase
                 //FireBaseUtils.retrievekeys(list_of_wifi_points);
+                Log.i("Test","Training NN from Testing");
                 FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+                Log.i("TrainTest","Training NN from Testing Done");
 
-                //TODO
+
+
 
                 //Get mywifilist
                 //pass to dataparser new dp()

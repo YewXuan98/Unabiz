@@ -109,12 +109,12 @@ public class Mapping extends AppCompatActivity {
 
             }
         };
-        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+        /*final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
             @Override
             public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
 
             }
-        };
+        };*/
 
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -135,8 +135,6 @@ public class Mapping extends AppCompatActivity {
                         Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
                     }
 
-                    //FireBaseUtils.retrievekeys(list_of_wifi_points);
-                    FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
             }
         });
 

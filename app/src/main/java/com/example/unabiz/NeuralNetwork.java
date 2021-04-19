@@ -5,7 +5,6 @@ import android.util.Log;
 import java.util.List;
 
 public class NeuralNetwork {
-
     Matrix weights_ih,weights_ho , bias_h,bias_o;
     double l_rate=0.01;
 
@@ -46,7 +45,6 @@ public class NeuralNetwork {
 
     public void fit(double[][]X,double[][]Y,int epochs)
     {
-
         for(int i=0;i<epochs;i++)
         {
             Log.i("fit","Fitting NN of epoch" + i);

@@ -10,12 +10,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.ListResult;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class FireBaseUtils {
     static DatabaseReference myDatabaseRef = FirebaseDatabase.getInstance().getReference();
@@ -123,38 +120,21 @@ public class FireBaseUtils {
                 //for (String ap_key:mac_rssi.keySet()){
                 //    Log.i(ap_key, mac_rssi.get(ap_key).toString() + "\n");
                 //}
-
                 DataParser dp = new DataParser(coordinates, mac_rssi,mac_addresses_list);
                 dp.parse();
 
                 int hiddenLayerSize = 100;
-                int epoch = 300;
+                int epoch = 100;
 
                 NeuralNetwork nn = NeuralNetwork.getInstance();
                 nn.setParameters(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
                 nn.fit(dp.input_x, dp.input_y, epoch);
+                Log.i("NN_Setup","Finish NN Training");
+
                 //end of nn training
 
-                double[] input = dp.input_x[3];
-                double[] actual_input = dp.input_y[3];
-                Log.i("actual_input",actual_input.toString());
-                int actual_input_index = dp.one_hot_to_index(actual_input);
-                int actual_x = dp.getX(actual_input_index);
-                int actual_y = dp.getY(actual_input_index);
 
-                List<Double>output = nn.predict(input);
-                Log.i("output",output.toString());
-
-                int largest_index = dp.array_find_max(output);
-                int x = dp.getX(largest_index);
-                int y = dp.getY(largest_index);
-
-                Log.i("result_x", String.valueOf(x));
-                Log.i("result_y", String.valueOf(y));
-                Log.i("actual_x", String.valueOf(actual_x));
-                Log.i("actual_y", String.valueOf(actual_y));
-
-                callbackAction.onCallback(coordinates);
+                callbackAction.onCallback(coordinates,mac_rssi,mac_addresses_list);
 
             }
 
@@ -171,7 +151,7 @@ public class FireBaseUtils {
     }
 
     interface AP_coordinatesCallbackInterface{
-        void onCallback(HashMap<String,HashMap<String,Integer>> coordinates);
+        void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list);
     }
 
 }

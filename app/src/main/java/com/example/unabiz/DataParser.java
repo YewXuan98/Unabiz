@@ -15,11 +15,15 @@ public class DataParser {
     int mac_names_total;
     double[][] input_x;
     double[][] input_y;
+    double[] input_x_test;
 
     double[] output;
     int map_length=12;
     int map_size = 144;
 
+    public DataParser(){
+
+    }
     public DataParser(HashMap<String, HashMap<String,Integer>> coordinates,
                       HashMap<String,HashMap<String,Integer>> mac_rssi,
                       ArrayList<String> mac_addresses_list){
@@ -59,11 +63,13 @@ public class DataParser {
             counter++;
 
         }
+        Log.i("DPParse","Parsing is done");
     }
 
     public void parse_test(List<ScanResult> current_wifi_list) {
         HashMap<String, Integer> wifiHashMap = new HashMap<>();
-        double[] input_x_test = new double[mac_names_total];
+        input_x_test = new double[mac_names_total];
+
 
 
         for (int i = 0; i < current_wifi_list.size(); i++) {
