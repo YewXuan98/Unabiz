@@ -12,7 +12,6 @@ public class DataParser {
     HashMap<String,HashMap<String,Integer>> mac_rssi;
     ArrayList<String> mac_addresses_list;
     String[] location_list;
-    int mac_names_total;
     double[][] input_x;
     double[][] input_y;
 
@@ -31,26 +30,23 @@ public class DataParser {
         this.mac_rssi = mac_rssi;
         this.mac_addresses_list = mac_addresses_list;
         location_list = coordinates.keySet().toArray(new String[0]);
-        mac_names_total = mac_addresses_list.size();
-        setup_input();
-    }
 
-    private void setup_input() {
-        input_x = new double[location_list.length][mac_names_total];
+        input_x = new double[location_list.length][mac_addresses_list.size()];
         input_y = new double[location_list.length][map_size];
 
-        Log.i("location_total", String.valueOf(location_list.length));
-        Log.i("mac_names_total", String.valueOf(mac_names_total));
+        //Log.i("location_total", String.valueOf(location_list.length));
+        //Log.i("mac_names_total", String.valueOf(mac_addresses_list.size()));
     }
+
 
     public void parse(){
         int counter = 0;
 
         for (String ap_name:coordinates.keySet()){
-            HashMap<String,Integer> coordinate = coordinates.get(ap_name);
+            HashMap<String,Integer> xy_coordinate = coordinates.get(ap_name);
             HashMap<String,Integer> mac_address = mac_rssi.get(ap_name);
 
-            for (int i=0; i<mac_names_total;i++){
+            for (int i=0; i<mac_addresses_list.size();i++){
                 Integer value = mac_address.get(mac_addresses_list.get(i));
 
                 if (value!=null){
@@ -58,13 +54,13 @@ public class DataParser {
                 }
             }
 
-            int coordinate_to_index = coordinate.get("x")*12+coordinate.get("y");
-            input_y[counter][coordinate_to_index] = 1;
+            int coordinate_to_index = xy_coordinate.get("x")*12+xy_coordinate.get("y");
+            input_y[counter][xy_coordinate_to_index(xy_coordinate)] = 1;
 
             counter++;
 
         }
-        Log.i("DPParse","Parsing is done");
+        //Log.i("DPParse","Parsing is done");
     }
 
     public double[] parse_test(List<ScanResult> current_wifi_list,ArrayList<String> references) {
@@ -101,8 +97,12 @@ public class DataParser {
         return point/map_length;
     }
 
+    public int xy_coordinate_to_index(HashMap<String,Integer> xy_coordinate){
+        return xy_coordinate.get("y")*map_length+xy_coordinate.get("x");
+    }
+
     public int array_find_max(List<Double> output){
-        double max = 0;
+        double max = Double.NEGATIVE_INFINITY;
         int largestIndex = 0;
 
         for (int i=0;i<output.size();i++){
@@ -112,16 +112,6 @@ public class DataParser {
             }
         }
         return largestIndex;
-    }
-
-    public int one_hot_to_index(double[] one_hot_array){
-        for (int i=0;i<one_hot_array.length;i++){
-            if (one_hot_array[i] == 1){
-                return i;
-            }
-        }
-        Log.i("Error","index not found");
-        return one_hot_array.length;
     }
 
 }
