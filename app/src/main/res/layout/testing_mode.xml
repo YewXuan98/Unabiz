@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_mapping"
         android:layout_width="328dp"
         android:layout_height="54dp"
@@ -45,7 +45,7 @@
         android:layout_below="@id/TestingTitle"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_testing"
         android:layout_width="328dp"
         android:layout_height="54dp"
@@ -60,7 +60,7 @@
         android:textColor="@drawable/button_text_col"
         android:textSize="20sp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/Scan_mode"
         android:layout_width="328dp"
         android:layout_height="54dp"
