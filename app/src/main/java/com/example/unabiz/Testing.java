@@ -48,7 +48,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 
 public class Testing extends AppCompatActivity {
@@ -166,6 +168,19 @@ public class Testing extends AppCompatActivity {
             this.imageView = PreviewImageMap;
         }
 
+        final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints) {
+
+            }
+        };
+        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+
+            }
+        };
+
         @Override
         public Bitmap doInBackground(String... strings) {
             String URLlink = strings[0];
@@ -181,16 +196,32 @@ public class Testing extends AppCompatActivity {
                 tempBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempcanvas = new Canvas(tempBitmap);
 
+                Paint myPaint = new Paint();
+                myPaint.setColor(0xffcccccc);
+                myPaint.setAntiAlias(true);
+                myPaint.setStrokeWidth(10);
+                myPaint.setStyle(Paint.Style.STROKE);
+
                 //Draw the image bitmap into canvas
                 tempcanvas.drawBitmap(bitmap, 0, 0, null);
 
                 //retrieve coordinates from firebase
                 //FireBaseUtils.retrievekeys(list_of_wifi_points);
-                //FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
 
-                //Feed into Driver to get coordinates
+                //TODO
+                //Get mywifilist
+                //pass to dataparser new dp()
+                //input = dp.testparse(mywifilist)
+                //List<Double> output = dp.predict(input) --> assumes the nn is ALREADY trained (need separate button preferably to initate train)
+                //output is the result (check classes for datatype)
+                // x = output[0]
+                //y - output[1]
+
 
                 //final coordinates send to test button for drawing
+                //line 161 and l62 return the x, y coordinates in firebaseutils
+                tempcanvas.drawCircle(20,20,1, myPaint);
 
 
 
@@ -216,6 +247,7 @@ public class Testing extends AppCompatActivity {
             }
             return bitmap;
         }
+
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
