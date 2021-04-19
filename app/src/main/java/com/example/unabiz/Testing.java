@@ -23,6 +23,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class Testing extends AppCompatActivity {
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
+    ProgressBar progressBar;
 
     boolean isDisplayReady = false;
     int x;
@@ -89,7 +91,7 @@ public class Testing extends AppCompatActivity {
         button_mapping = findViewById(R.id.button_mapping);
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
-
+        progressBar = findViewById(R.id.progressbar_);
 
 
         button_mapping.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +122,7 @@ public class Testing extends AppCompatActivity {
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
                 loadImage.execute(imgURL);
                 /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
@@ -307,7 +310,9 @@ public class Testing extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
+
             PreviewImageMap.setImageBitmap(tempBitmap);
+            progressBar.setVisibility(View.INVISIBLE);
 
         }
     }
