@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
@@ -61,6 +62,10 @@ public class Testing extends AppCompatActivity {
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
+
+    ArrayList<ScanResult> mywifilist;
+    String LIST_KEY = "mylist";
+    private static final String TAG = "MyActivity";
 
     private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -90,6 +95,8 @@ public class Testing extends AppCompatActivity {
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
 
+        mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
+        System.out.println(mywifilist);
 
         button_mapping.setOnClickListener(new View.OnClickListener() {
             @Override

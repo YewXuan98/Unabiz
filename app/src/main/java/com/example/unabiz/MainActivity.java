@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.internal.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
     WifiReceiver wifiReceiver;
     ListAdapter listAdapter;
     ListView wifilist;
-    List<ScanResult> mywifilist;
+    ArrayList<ScanResult> mywifilist;
     ToggleButton scanWifi_button;
     Button scan_mode;
     Button mapping_mode;
     Button test_mode;
+
+    String LIST_KEY = "mylist";
+    private static final String TAG = "MyActivity";
+
     private static final int MY_REQUEST_CODE = 123;
     private static final String LOG_TAG = "Yew Xuan";
     private StringBuilder sb = new StringBuilder();
@@ -96,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Mapping_mode.class);
+                intent.putExtra(LIST_KEY, mywifilist);
+                Log.i(TAG, "for wifi" + mywifilist);
                 startActivity(intent);
             }
         });
@@ -138,13 +146,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void doStartScanWifi()  {
         this.wifiManager.startScan();
-        mywifilist =  wifiManager.getScanResults();
+        mywifilist = (ArrayList<ScanResult>) wifiManager.getScanResults();
+        //mywifilist =  wifiManager.getScanResults();
         sb.append("\n Number of Wifi Connections: " + " " + mywifilist.size() + "\n\n");
         ;
         for (int i=0; i < mywifilist.size(); i++) {
             String bssid = mywifilist.get(i).BSSID;
             String ssid = mywifilist.get(i).SSID.replace('.', '1'); //replace . with 1
             Integer rssi = mywifilist.get(i).level;
+            System.out.println(mywifilist);
             sb.append(new Integer(i+1).toString() + ".");
             sb.append(String.format("Name: %s,\nBSSID: %s,\nRSSI: %s\n",ssid,bssid,rssi));
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -172,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopScanWifi()  {
-        mywifilist = wifiManager.getScanResults();
+        mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
         setAdapter();
         System.out.println("Scanning stop");
     }
