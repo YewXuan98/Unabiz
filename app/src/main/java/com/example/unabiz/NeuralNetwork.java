@@ -1,5 +1,7 @@
 package com.example.unabiz;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class NeuralNetwork {
@@ -33,8 +35,10 @@ public class NeuralNetwork {
 
     public void fit(double[][]X,double[][]Y,int epochs)
     {
+
         for(int i=0;i<epochs;i++)
         {
+            Log.i("fit","Fitting NN of epoch" + i);
             int sampleN =  (int)(Math.random() * X.length );
             this.train(X[sampleN], Y[sampleN]);
         }

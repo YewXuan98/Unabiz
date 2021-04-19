@@ -107,10 +107,19 @@ public class Testing extends AppCompatActivity {
             }
         });
 
+
+        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+            @Override
+            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+
+            }
+        };
+
         //draw circle as location of user
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
                 /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bmp);
 

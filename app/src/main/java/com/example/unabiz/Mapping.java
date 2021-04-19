@@ -66,8 +66,8 @@ public class Mapping extends AppCompatActivity {
     //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
-    int count_ap = 0;
-    int count_dp = 0;
+    static int count_ap = 0;
+    static int count_dp = 0;
     public String imgURL;
 
     //zooming
@@ -129,7 +129,7 @@ public class Mapping extends AppCompatActivity {
                     }
 
                     //FireBaseUtils.retrievekeys(list_of_wifi_points);
-                    FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
+
             }
         });
 
@@ -141,12 +141,12 @@ public class Mapping extends AppCompatActivity {
                 String y_coord = y_entry.getText().toString();
                 if(x_coor.isEmpty()|| y_coord.isEmpty()){
                     Toast.makeText(Mapping.this, "Please enter both coordinates", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Log.i("x_coor", x_coor);
                     Log.i("y_coor", y_coord);
                     mapToDatabse_DP();
                     count_dp +=1;
+                    Log.i("count_ap", String.valueOf(count_dp));
                 }
 
             }
@@ -202,8 +202,6 @@ public class Mapping extends AppCompatActivity {
             String bssid = mywifilist.get(i).BSSID;
 
             Integer rssi = (Integer) mywifilist.get(i).level;
-
-
 
             databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

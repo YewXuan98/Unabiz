@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.ListResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -127,43 +128,30 @@ public class FireBaseUtils {
                 dp.parse();
 
                 int hiddenLayerSize = 100;
-                int epoch = 1000;
+                int epoch = 300;
 
                 NeuralNetwork nn = new NeuralNetwork(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
-
-                List<Double>output;
-
                 nn.fit(dp.input_x, dp.input_y, epoch);
-
                 //end of nn training
 
-                double [][] input = {
-                        dp.input_x[2],dp.input_x[8],dp.input_x[15],dp.input_x[40]
-                };
+                double[] input = dp.input_x[3];
+                double[] actual_input = dp.input_y[3];
+                Log.i("actual_input",actual_input.toString());
+                int actual_input_index = dp.one_hot_to_index(actual_input);
+                int actual_x = dp.getX(actual_input_index);
+                int actual_y = dp.getY(actual_input_index);
 
+                List<Double>output = nn.predict(input);
+                Log.i("output",output.toString());
 
-                for(double[] d :input)
-                {
-                    output = nn.predict(d);
-                    Log.i("output",output.toString());
-                    double max = 0;
-                    int largestIndex = 0;
-                    int x;
-                    int y;
-                    for (int i=0;i<output.size();i++){
-                        if (output.get(i)>max){
-                            max = output.get(i);
-                            largestIndex=i;
-                            //Log.i("Largest_Index", String.valueOf(largestIndex));
-                        }
-                    }
-                    x = largestIndex/12; //integer division
-                    y = largestIndex%12; //modulo division
+                int largest_index = dp.array_find_max(output);
+                int x = dp.getX(largest_index);
+                int y = dp.getY(largest_index);
 
-
-                    Log.i("result_x", String.valueOf(x));
-                    Log.i("result_y", String.valueOf(y));
-                }
+                Log.i("result_x", String.valueOf(x));
+                Log.i("result_y", String.valueOf(y));
+                Log.i("actual_x", String.valueOf(actual_x));
+                Log.i("actual_y", String.valueOf(actual_y));
 
                 callbackAction.onCallback(coordinates);
 
