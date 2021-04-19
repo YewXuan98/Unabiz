@@ -14,7 +14,7 @@
         android:width="3dp"
         android:color="#FFFFFF" />
 
-    <item android:state_pressed="true"
+    <!--<item android:state_pressed="true"
         android:color="#ffffff"/>
 
 
@@ -22,7 +22,7 @@
         android:color="#00ffffff"/>
 
 
-    <!--<item android:state_enabled="true"
+    <item android:state_enabled="true"
         android:color="#00ffffff"/>-->
 
 </shape>
