@@ -135,6 +135,8 @@ public class FireBaseUtils {
 
                 nn.fit(dp.input_x, dp.input_y, epoch);
 
+                //end of nn training
+
                 double [][] input = {
                         dp.input_x[2],dp.input_x[8],dp.input_x[15],dp.input_x[40]
                 };
@@ -157,6 +159,7 @@ public class FireBaseUtils {
                     }
                     x = largestIndex/12; //integer division
                     y = largestIndex%12; //modulo division
+
 
                     Log.i("result_x", String.valueOf(x));
                     Log.i("result_y", String.valueOf(y));

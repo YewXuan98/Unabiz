@@ -86,6 +86,10 @@ public class DataParser {
         }*/
     }
 
+    //TODO
+    //Make testparse class to process mywifilist
+    //Maybe try singleton
+
     //TODO TRAIN_TEST
     public void train_test(){
         //input_x_train = new double[location_list.length-training_number][mac_names_total];
