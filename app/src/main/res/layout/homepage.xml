@@ -13,28 +13,11 @@
         android:src="@drawable/bee_recoloured"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginLeft="200sp"
-        android:layout_marginTop="480sp"
-        android:fontFamily="@font/montserrat"
-        android:paddingLeft="15sp"
-        android:paddingRight="15sp"
-        android:text="UNABIZ"
-        android:textColor="#ffffff"
-        android:textSize="30dp"
-
-
-        />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/launchbtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="600dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
 
         android:textColor="@drawable/button_text_col"
         android:textStyle="bold"
@@ -53,5 +36,24 @@
 
 
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginLeft="200sp"
+        android:layout_marginTop="480sp"
+        android:fontFamily="@font/montserrat"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp"
+        android:text="UNABIZ"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+
+
+        />
+
+
 
 </RelativeLayout>

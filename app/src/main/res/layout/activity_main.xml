@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_background"
 
             android:fontFamily="@font/montserrat"
             android:text="Scan"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_background"
 
             android:fontFamily="@font/montserrat"
             android:text="Map"
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_background"
 
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
@@ -101,7 +101,7 @@
         android:textOff="Scan"
         android:textOn="Stop scanning"
         android:textColor="@drawable/button_text_col"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
         app:icon="@drawable/play_arrow"
         android:textStyle="bold"
 

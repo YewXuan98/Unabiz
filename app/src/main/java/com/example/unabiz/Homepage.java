@@ -18,6 +18,7 @@ public class Homepage extends AppCompatActivity {
         launchbtn = findViewById(R.id.launchbtn);
         launchbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Intent activity2Intent = new Intent(Homepage.this, MainActivity.class);
                 startActivity(activity2Intent);
 

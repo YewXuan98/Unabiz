@@ -105,7 +105,7 @@
         android:layout_marginBottom="20dp"
         android:layout_toStartOf="@+id/map_to_database2_button"
         android:layout_toLeftOf="@+id/map_to_database2_button"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat"
 
         android:text="Upload"
@@ -126,7 +126,7 @@
         android:layout_marginEnd="71dp"
         android:layout_marginRight="71dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
         android:fontFamily="@font/montserrat"
 
         android:text="Upload 2"
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_background"
 
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
@@ -162,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_background"
 
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
@@ -176,8 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:background="@drawable/rounded_button"
-
+            android:background="@drawable/button_background"
             android:textColor="@drawable/button_text_col"
             android:textStyle="bold"
             android:textSize="15sp"

@@ -16,27 +16,10 @@
         android:textSize="36sp"
         android:fontFamily="@font/montserrat"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_mapping"
-        android:layout_width="328dp"
-        android:layout_height="54dp"
-        android:layout_below="@id/button_testing"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:text="Mapping Mode"
-        android:background="@drawable/rounded_button"
-        android:textColor="@drawable/button_text_col"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/Scan_mode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824" />
+
 
     <ImageView
         android:id="@+id/PreviewImage"
@@ -48,35 +31,77 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_testing"
         android:layout_width="328dp"
-        android:layout_height="54dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/PreviewImage"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="20dp"
         android:text="Test"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/button_background"
         android:gravity="center"
         android:textStyle="bold"
         android:fontFamily="@font/montserrat"
         android:textColor="@drawable/button_text_col"
         android:textSize="20sp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Scan_mode"
-        android:layout_width="328dp"
-        android:layout_height="54dp"
-        android:layout_below="@id/button_mapping"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/button_testing"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true">
 
 
-        android:layout_centerHorizontal="true"
 
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="95dp"
-        android:background="@drawable/rounded_button"
-        android:fontFamily="@font/montserrat"
-        android:text="Scanning Mode"
-        android:textColor="@drawable/button_text_col"
-        android:textSize="20sp"
-        android:textStyle="bold"
-         />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/Scan_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/montserrat"
+            android:text="SCAN"
+            android:textColor="@drawable/button_text_col"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_mapping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button_testing"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="MAP"
+            android:background="@drawable/button_background"
+            android:textColor="@drawable/button_text_col"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/test_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/montserrat"
+            android:text="TEST"
+            android:textColor="@drawable/button_text_col"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
 
 </RelativeLayout>
