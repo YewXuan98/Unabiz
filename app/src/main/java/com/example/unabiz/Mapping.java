@@ -70,8 +70,8 @@ public class Mapping extends AppCompatActivity {
     //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
-    static int count_ap = 0;
-    static int count_dp = 0;
+    static int count_ap = 22;
+    static int count_dp = 21;
     public String imgURL;
 
     //zooming
