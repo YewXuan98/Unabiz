@@ -6,8 +6,9 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_drawable">
+    android:background="@drawable/gradient_drawable"
+    android:foreground="@android:color/transparent"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/PreviewImageMap"
@@ -15,9 +16,9 @@
         android:layout_height="380dp"
         android:layout_below="@id/MappingTitle"
         android:layout_marginTop="1dp"
-        app:srcCompat="@drawable/ic_launcher_background"
+        android:foreground="@android:color/transparent"
 
-        />
+        app:srcCompat="@android:color/transparent" />
 
     <TextView
         android:layout_width="match_parent"
@@ -32,11 +33,11 @@
         android:id="@+id/MappingTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:text="Mapping Mode"
         android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="Mapping Mode"
         android:textAlignment="center"
+        android:textColor="#ffffff"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -61,21 +62,20 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/gradient_drawable"
-        />
+        android:background="@drawable/gradient_drawable" />
 
     <EditText
         android:id="@+id/x_Entry"
         android:layout_width="328dp"
         android:layout_height="54dp"
-        android:fontFamily="@font/montserrat"
         android:layout_below="@id/PreviewImageMap"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:hint="Enter x coordinate here"
-        android:textSize="20sp"
         android:inputType="number"
+        android:textSize="20sp"
 
         />
 
@@ -84,14 +84,13 @@
         android:layout_width="328dp"
         android:layout_height="54dp"
         android:layout_below="@id/x_Entry"
-        android:fontFamily="@font/montserrat"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:hint="Enter y coordinate here"
-        android:textSize="20sp"
         android:inputType="number"
-        />
+        android:textSize="20sp" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -111,8 +110,7 @@
         android:text="Upload"
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/map_to_database2_button"
@@ -132,57 +130,53 @@
         android:text="Upload 2"
         android:textColor="@drawable/button_text_col"
         android:textSize="15sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/map_to_database_button"
-        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        >
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_scanmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/button_background"
 
+            android:fontFamily="@font/montserrat"
+            android:text="Scan"
             android:textColor="@drawable/button_text_col"
-            android:textStyle="bold"
             android:textSize="15sp"
-            android:layout_marginHorizontal="10dp"
-            android:text="Scan" />
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/button_background"
 
-            android:textColor="@drawable/button_text_col"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/montserrat"
             android:text="Map"
-            />
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/mappingmode_to_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:background="@drawable/button_background"
-            android:textColor="@drawable/button_text_col"
-            android:textStyle="bold"
-            android:textSize="15sp"
             android:layout_marginHorizontal="10dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/montserrat"
             android:text="Test"
-            />
+            android:textColor="@drawable/button_text_col"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

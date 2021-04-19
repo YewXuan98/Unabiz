@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class Testing extends AppCompatActivity {
     Button button_mapping;
     Button button_testing;
     Button Scan_mode;
+    ProgressBar progressBar;
 
     ArrayList<ScanResult> mywifilist;
     String LIST_KEY = "mylist";
@@ -79,6 +81,8 @@ public class Testing extends AppCompatActivity {
     //mapping grids
     int scrWidth, scrHeight;
 
+    //progress bar
+
     /*DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     final StorageReference storageReference = FirebaseStorage.getInstance().getReference();*/
 
@@ -94,6 +98,7 @@ public class Testing extends AppCompatActivity {
         button_mapping = findViewById(R.id.button_mapping);
         button_testing = findViewById(R.id.button_testing);
         Scan_mode = findViewById(R.id.Scan_mode);
+        progressBar = findViewById(R.id.progressbar_);
 
         mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
         System.out.println(mywifilist);
@@ -118,6 +123,9 @@ public class Testing extends AppCompatActivity {
         button_testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
+                loadImage.execute(imgURL);
                 /*Bitmap bmp = Bitmap.createBitmap(180,180,Bitmap.Config.RGB_565);
                 Canvas canvas = new Canvas(bmp);
 
@@ -140,8 +148,7 @@ public class Testing extends AppCompatActivity {
         Intent intent = getIntent();
         imgURL = intent.getStringExtra(IMAGE_KEY);
         System.out.println("URL STRING gotten on testing mode side: " + imgURL);
-        Testing.LoadImage loadImage = new Testing.LoadImage(PreviewImageMap);
-        loadImage.execute(imgURL);
+
 
 
     }
@@ -181,17 +188,19 @@ public class Testing extends AppCompatActivity {
 
             }
         };
-        final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
-            @Override
-            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
 
-            }
-        };
 
         @Override
         public Bitmap doInBackground(String... strings) {
             String URLlink = strings[0];
             Bitmap bitmap = null;
+
+            final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+                @Override
+                public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+
+                }
+            };
 
             try {
                 //this is for URL link
@@ -260,6 +269,7 @@ public class Testing extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
             PreviewImageMap.setImageBitmap(tempBitmap);
+            progressBar.setVisibility(View.GONE);
 
         }
     }

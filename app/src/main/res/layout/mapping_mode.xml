@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="380dp"
         android:layout_below="@id/MappingTitle"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/gradient_drawable" />
 
     <EditText
         android:id="@+id/UrlEntry"
