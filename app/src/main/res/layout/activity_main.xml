@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         >
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_scanmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
 
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_mappingmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
 
             />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_testmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
