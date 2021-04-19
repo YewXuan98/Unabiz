@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -23,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import com.squareup.picasso.*;
 
 public class Mapping_mode extends AppCompatActivity {
@@ -36,7 +39,9 @@ public class Mapping_mode extends AppCompatActivity {
     public Uri mImageUri;
     String IMAGE_KEY = "image";
 
-
+    String LIST_KEY = "mylist";
+    ArrayList<ScanResult> mywifilist;
+    private static final String TAG = "MyActivity";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +53,9 @@ public class Mapping_mode extends AppCompatActivity {
         confirm_url_button = findViewById(R.id.ConfirmURL);
         PreviewImage = findViewById(R.id.PreviewImage);
         storage = FirebaseStorage.getInstance().getReference();
+
+        mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
+        System.out.println(mywifilist);
 
 
         upload_image.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +80,8 @@ public class Mapping_mode extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Mapping.class);
                 System.out.println(url_stringText);
                 intent.putExtra(IMAGE_KEY, url_stringText);
+                intent.putExtra(LIST_KEY, mywifilist);
+                Log.i(TAG, "for wifi" + mywifilist);
                 url_string.setText("");
                 startActivity(intent);
             }
