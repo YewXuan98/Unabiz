@@ -130,7 +130,8 @@ public class FireBaseUtils {
                 int hiddenLayerSize = 100;
                 int epoch = 300;
 
-                NeuralNetwork nn = new NeuralNetwork(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
+                NeuralNetwork nn = NeuralNetwork.getInstance();
+                nn.setParameters(dp.input_x[0].length,hiddenLayerSize,dp.input_y[0].length);
                 nn.fit(dp.input_x, dp.input_y, epoch);
                 //end of nn training
 

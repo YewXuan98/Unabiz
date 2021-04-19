@@ -219,6 +219,7 @@ public class Testing extends AppCompatActivity {
                 FireBaseUtils.retrieveAP_coordinates(coordinatesCallbackInterface);
 
                 //TODO
+
                 //Get mywifilist
                 //pass to dataparser new dp()
                 //input = dp.testparse(mywifilist)
