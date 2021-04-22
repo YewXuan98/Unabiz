@@ -81,7 +81,7 @@ public class DataParser {
                 input_x_test[i] = (double) value;
             }
             else{
-                input_x_test[i] = (double) 0;
+                input_x_test[i] = 0;
             }
         }
         return input_x_test;
@@ -113,5 +113,4 @@ public class DataParser {
         }
         return largestIndex;
     }
-
 }
