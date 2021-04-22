@@ -74,7 +74,6 @@ public class Mapping extends AppCompatActivity {
     static int count_dp = 0;
     public String imgURL;
 
-    boolean isReady = false;
 
     //zooming
 
@@ -84,13 +83,6 @@ public class Mapping extends AppCompatActivity {
     int scrWidth, scrHeight;
 
     DatabaseReference databaseReference_una = FirebaseDatabase.getInstance().getReference();
-
-    class ThreadMapping extends Thread{
-        @Override
-        public void run() {
-
-        }
-    }
 
 
     @SuppressLint("ResourceType")
@@ -112,16 +104,37 @@ public class Mapping extends AppCompatActivity {
         mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
         System.out.println(mywifilist);
 
-
-
-
-
-        /*final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
+        final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
             @Override
-            public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
+            public void onCallback(List<String> wifipoints) {
 
+                Log.i("Wifi points", wifipoints.toString());
+                int APLatestentry = 0;
+                int DPLatestentry = 0;
+
+                for (int i = 0; i < wifipoints.size() ; i++) {
+                    String currentkey = wifipoints.get(i);
+                    String currentString = currentkey.substring(0,2);
+
+                    if(currentString.contentEquals("AP")){
+                        if (Integer.parseInt(currentkey.substring(2)) > APLatestentry){
+                            APLatestentry = Integer.parseInt(currentkey.substring(2));
+                        }
+                    }
+
+                    if(currentString.contentEquals("DP")){
+                        if (Integer.parseInt(currentkey.substring(2)) > DPLatestentry){
+                            DPLatestentry = Integer.parseInt(currentkey.substring(2));
+                        }
+                    }
+                }
+                count_ap = APLatestentry + 1;
+                count_dp = DPLatestentry + 1;
             }
-        };*/
+        };
+
+        FireBaseUtils.retrievekeys(list_of_wifi_points);
+
 
         map_to_database.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -131,80 +144,16 @@ public class Mapping extends AppCompatActivity {
                     String x_coor = x_entry.getText().toString();
                     String y_coord = y_entry.getText().toString();
 
-
-
                     if(x_coor.isEmpty()|| y_coord.isEmpty()){
-                            Toast.makeText(Mapping.this, "Please enter both coordinates", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Mapping.this, "Please enter both coordinates", Toast.LENGTH_SHORT).show();
 
                     } else {
                         Log.i("x_coor", x_coor);
                         Log.i("y_coor", y_coord);
-
-                        Thread t1 = new Thread(new Runnable() { // Create an anonymous inner class that implements Runnable interface
-                            public void run() {
-                                final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
-                                    @Override
-                                    public void onCallback(List<String> wifipoints) {
-
-                                        Log.i("Wifi points", wifipoints.toString());
-                                        int APLatestentry = 0;
-
-                                        for (int i = 0; i < wifipoints.size() ; i++) {
-                                            String currentkey = wifipoints.get(i);
-                                            //Log.i("Enters for loop", "enteringgg");
-
-                                            String currentString = currentkey.substring(0,2);
-                                            //Log.i("AP check substring", currentString);
-
-                                            if(currentString.contentEquals("AP")){
-                                                Log.i("AP latest", "Sucess check AP");
-                                                if (Integer.parseInt(currentkey.substring(2)) > APLatestentry){
-                                                    APLatestentry = Integer.parseInt(currentkey.substring(2));
-                                                }
-                                            }
-                                        }
-
-                                        Log.i("AP largest", String.valueOf(APLatestentry));
-                                        count_ap = APLatestentry;
-                                        isReady = true;
-                                    }
-                                };
-
-
-                                Log.i("RUN", "FIRSTT");
-                                //FireBaseUtils.retrievekeys(list_of_wifi_points); //set the count_ap to latest
-                                Log.i("RUN2", "FIRSTT 2");
-                            }
-                        });
-
-
-                        Thread t2 = new Thread(new Runnable() { // Create an anonymous inner class that implements Runnable interface
-                            public void run() {
-                                Log.i("RUN dodo", "FIRSTT");
-                                doStartScanWifi();
-                                Log.i("RUN dodo2", "FIRSTT");
-                            }
-                        });
-                        t1.setPriority(2);
-                        t2.setPriority(1);
-
-                        t1.run();
-                        t2.run();
-
-                        try {
-                            t1.join();
-                            t2.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //doStartScanWifi();
-                        Log.i("count_ap", String.valueOf(count_ap));
+                        doStartScanWifi();
+                        count_ap +=1;
                         Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
-                        Log.i("finish","end if map to database");
-
                     }
-                    Log.i("finish tooo","end if map to database");
-
             }
         });
 
@@ -253,20 +202,13 @@ public class Mapping extends AppCompatActivity {
             }
         });
 
-
         /*LOAD IMAGE INTO MAPPING MODE */
-
             Intent intent = getIntent();
             imgURL = intent.getStringExtra(IMAGE_KEY);
             Log.i("URL STRING gotten", imgURL);
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
             loadImage.execute(imgURL);
-
     }
-
-
-
-
 
     public void doStartScanWifi()  {
         IntentFilter filter = new IntentFilter();
@@ -275,8 +217,6 @@ public class Mapping extends AppCompatActivity {
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
 
-
-        count_ap +=1;
         String AP_name = "AP" + count_ap;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
         Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
@@ -309,9 +249,7 @@ public class Mapping extends AppCompatActivity {
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) {}
             });
 
 
@@ -343,7 +281,7 @@ public class Mapping extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
+                    Log.i("Test_Child",snapshot.getChildren().toString());
 
                     if(!snapshot.child("WIFI").hasChild(bssid)){
                         databaseReference_una.child("WIFI").child(bssid).setValue(rssi);
@@ -354,14 +292,11 @@ public class Mapping extends AppCompatActivity {
                         databaseReference_una.child(DP_name).child("x").setValue(x_coordinate);
                         databaseReference_una.child(DP_name).child("y").setValue(y_coordinate);
                         databaseReference_una.child(DP_name).child(bssid).setValue(rssi);
-
                     }
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
+                public void onCancelled(@NonNull DatabaseError error) {}
             });
 
 
@@ -392,7 +327,6 @@ public class Mapping extends AppCompatActivity {
             PreviewImageMap.setScaleY(mScaleFactor);
             return true;
         }
-
     }
 
 
@@ -455,7 +389,6 @@ public class Mapping extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             //Attach the canvas to the Image view
             PreviewImageMap.setImageBitmap(tempBitmap);
-
         }
     }
 
@@ -466,13 +399,8 @@ public class Mapping extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             mImageUri = data.getData();
 
-
         } else {
             Log.i("Failed activity", "Failed activity");
         }
     }
-
-
-
-
 }
