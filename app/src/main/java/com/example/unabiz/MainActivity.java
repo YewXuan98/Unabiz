@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,13 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,18 +24,13 @@ import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import android.widget.Toast;
-
-import com.google.android.gms.common.util.Base64Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
-import com.google.firebase.storage.internal.Util;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -223,14 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-    SwipeDetector swipeDetector = new SwipeDetector();
-
-
-
-
-
-
     private void setAdapter() {
         //int[] myImageList = new int[] {R.drawable.wifi_signal_green, R.drawable.wifi_signal_yellow,R.drawable.wifi_signal_red, R.drawable.wifi_signal, R.drawable.wifi_signal_unusable};
         listAdapter = new ListAdapter(getApplicationContext(), mywifilist);
@@ -240,22 +221,22 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO: On swipe to delete from firebase
 
-        wifilistview.setOnTouchListener(swipeDetector);
-        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(swipeDetector.swipeDetected()){
-                    if (swipeDetector.getAction() == SwipeDetector.Action.LR){
-                        System.out.println("SWIPEEEED");
-                        listAdapter.remove(position);
-                    } else {
+//        wifilistview.setOnTouchListener(swipeDetector);
+//        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if(swipeDetector.swipeDetected()){
+//                    if (swipeDetector.getAction() == SwipeDetector.Action.LR){
+//                        System.out.println("SWIPEEEED");
+//                        listAdapter.remove(position);
+//                    } else {
+//
+//                    }
+//                }
+//            }
+//        };
 
-                    }
-                }
-            }
-        };
-
-        wifilistview.setOnItemClickListener(listener);
+//        wifilistview.setOnItemClickListener(listener);
 
 
     }

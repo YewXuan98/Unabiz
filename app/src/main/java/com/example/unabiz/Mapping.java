@@ -194,6 +194,8 @@ public class Mapping extends AppCompatActivity {
 
     }
 
+
+
     public void doStartScanWifi()  {
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
@@ -205,6 +207,9 @@ public class Mapping extends AppCompatActivity {
         String AP_name = "AP" + count_ap;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
         Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
+        List<String> wifi_ap_list = new ArrayList<>();
+
+
         for (int i=0; i < mywifilist.size(); i++) {
             Log.i("AP" , AP_name);
             //Log.i("mywifilist size" , String.valueOf(mywifilist.size()));
@@ -213,11 +218,9 @@ public class Mapping extends AppCompatActivity {
             Integer rssi = (Integer) mywifilist.get(i).level;
 
 
-
             databaseReference_una.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-
 
 
                     if(!snapshot.child("WIFI").hasChild(bssid)){
@@ -231,6 +234,7 @@ public class Mapping extends AppCompatActivity {
                         databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
 
                     }
+                    wifi_ap_list.add(snapshot.child(AP_name).getKey());
                 }
 
                 @Override
@@ -240,7 +244,9 @@ public class Mapping extends AppCompatActivity {
             });
 
 
+
         }
+        Log.i("WIFI AP list", wifi_ap_list.toString());
 
         x_entry.setText("");
         y_entry.setText("");

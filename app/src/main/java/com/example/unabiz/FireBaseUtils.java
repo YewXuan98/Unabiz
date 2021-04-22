@@ -155,5 +155,7 @@ public class FireBaseUtils {
         void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list);
     }
 
+
+
 }
 
