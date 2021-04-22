@@ -34,25 +34,10 @@ public class FireBaseUtils {
 
                 }
 
-                int APLatestentry = 0;
 
+                Log.i("key_mappings", ap_mac.toString());
 
-                for (int i = 0; i < ap_mac.size() ; i++) {
-                    String currentkey = ap_mac.get(i);
-
-                    if(currentkey.substring(0,1) == "AP"){
-                        Log.i("AP latest", "Sucess check AP");
-                    }
-
-                }
-
-
-
-
-                Log.i("ap_mac", ap_mac.toString());
-                //Log.i("key_mappings", key_mapping.toString());
-
-                    callbackAction.onCallback(ap_mac);
+                callbackAction.onCallback(ap_mac);
 
             }
 
@@ -61,6 +46,8 @@ public class FireBaseUtils {
 
             }
         });
+
+        Log.i("ap_mac", ap_mac.toString());
 
     }
 

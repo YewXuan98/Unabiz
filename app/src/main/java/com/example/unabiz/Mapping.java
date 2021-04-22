@@ -70,9 +70,11 @@ public class Mapping extends AppCompatActivity {
     //private StringBuilder sbs = new StringBuilder();
     private static final int PICK_IMAGE_REQUEST = 1;
     public Uri mImageUri;
-    static int count_ap = 22;
-    static int count_dp = 21;
+    static int count_ap = 0;
+    static int count_dp = 0;
     public String imgURL;
+
+    boolean isReady = false;
 
     //zooming
 
@@ -82,6 +84,13 @@ public class Mapping extends AppCompatActivity {
     int scrWidth, scrHeight;
 
     DatabaseReference databaseReference_una = FirebaseDatabase.getInstance().getReference();
+
+    class ThreadMapping extends Thread{
+        @Override
+        public void run() {
+
+        }
+    }
 
 
     @SuppressLint("ResourceType")
@@ -103,12 +112,10 @@ public class Mapping extends AppCompatActivity {
         mywifilist = (ArrayList<ScanResult>) getIntent().getSerializableExtra(LIST_KEY);
         System.out.println(mywifilist);
 
-        final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
-            @Override
-            public void onCallback(List<String> wifipoints) {
 
-            }
-        };
+
+
+
         /*final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
             @Override
             public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates) {
@@ -123,21 +130,85 @@ public class Mapping extends AppCompatActivity {
 
                     String x_coor = x_entry.getText().toString();
                     String y_coord = y_entry.getText().toString();
+
+
+
                     if(x_coor.isEmpty()|| y_coord.isEmpty()){
                             Toast.makeText(Mapping.this, "Please enter both coordinates", Toast.LENGTH_SHORT).show();
 
                     } else {
                         Log.i("x_coor", x_coor);
                         Log.i("y_coor", y_coord);
-                        doStartScanWifi();
-                        FireBaseUtils.retrievekeys(list_of_wifi_points);
-                        count_ap +=1;
+
+                        Thread t1 = new Thread(new Runnable() { // Create an anonymous inner class that implements Runnable interface
+                            public void run() {
+                                final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
+                                    @Override
+                                    public void onCallback(List<String> wifipoints) {
+
+                                        Log.i("Wifi points", wifipoints.toString());
+                                        int APLatestentry = 0;
+
+                                        for (int i = 0; i < wifipoints.size() ; i++) {
+                                            String currentkey = wifipoints.get(i);
+                                            //Log.i("Enters for loop", "enteringgg");
+
+                                            String currentString = currentkey.substring(0,2);
+                                            //Log.i("AP check substring", currentString);
+
+                                            if(currentString.contentEquals("AP")){
+                                                Log.i("AP latest", "Sucess check AP");
+                                                if (Integer.parseInt(currentkey.substring(2)) > APLatestentry){
+                                                    APLatestentry = Integer.parseInt(currentkey.substring(2));
+                                                }
+                                            }
+                                        }
+
+                                        Log.i("AP largest", String.valueOf(APLatestentry));
+                                        count_ap = APLatestentry;
+                                        isReady = true;
+                                    }
+                                };
+
+
+                                Log.i("RUN", "FIRSTT");
+                                //FireBaseUtils.retrievekeys(list_of_wifi_points); //set the count_ap to latest
+                                Log.i("RUN2", "FIRSTT 2");
+                            }
+                        });
+
+
+                        Thread t2 = new Thread(new Runnable() { // Create an anonymous inner class that implements Runnable interface
+                            public void run() {
+                                Log.i("RUN dodo", "FIRSTT");
+                                doStartScanWifi();
+                                Log.i("RUN dodo2", "FIRSTT");
+                            }
+                        });
+                        t1.setPriority(2);
+                        t2.setPriority(1);
+
+                        t1.run();
+                        t2.run();
+
+                        try {
+                            t1.join();
+                            t2.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        //doStartScanWifi();
                         Log.i("count_ap", String.valueOf(count_ap));
                         Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
+                        Log.i("finish","end if map to database");
+
                     }
+                    Log.i("finish tooo","end if map to database");
 
             }
         });
+
+
 
         map_to_database_2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,9 +262,9 @@ public class Mapping extends AppCompatActivity {
             Mapping.LoadImage loadImage = new Mapping.LoadImage(PreviewImageMap);
             loadImage.execute(imgURL);
 
-
-
     }
+
+
 
 
 
@@ -205,6 +276,7 @@ public class Mapping extends AppCompatActivity {
         mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
 
 
+        count_ap +=1;
         String AP_name = "AP" + count_ap;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
         Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
