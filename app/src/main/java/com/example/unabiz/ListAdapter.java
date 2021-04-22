@@ -16,6 +16,7 @@ package com.example.unabiz;
 
         import androidx.annotation.RequiresApi;
 
+
         import java.math.RoundingMode;
 
         import com.google.android.material.transition.Hold;
@@ -44,6 +45,15 @@ public class ListAdapter extends BaseAdapter {
     public int getCount() {
         return wifiList.size();
     }
+
+    public void remove(int position) {
+
+
+        wifiList.remove(position);
+        System.out.println("Removed");
+
+    }
+
 
     @Override
     public Object getItem(int position) {
@@ -92,6 +102,8 @@ public class ListAdapter extends BaseAdapter {
         holder.tvRSSI.setText(Double.toString(rssi) + " dBm");
         holder.tvMAC.setText("(" + wifiList.get(position).BSSID + ")");
         holder.tvdistance.setText("~" + Double.toString(distance) + " metres" );
+
+
 
 //        if (rssi <= -90){
 //            System.out.println("Unusable");

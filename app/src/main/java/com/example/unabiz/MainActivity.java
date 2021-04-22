@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -21,6 +23,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -34,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 import com.google.firebase.storage.internal.Util;
 
 import java.util.ArrayList;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     WifiManager wifiManager;
     WifiReceiver wifiReceiver;
     ListAdapter listAdapter;
-    ListView wifilist;
+    ListView wifilistview;
     ArrayList<ScanResult> mywifilist;
     ToggleButton scanWifi_button;
     Button scan_mode;
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        wifilist = (ListView)findViewById(R.id.myListView);
+        wifilistview = (ListView)findViewById(R.id.myListView);
         scanWifi_button = findViewById(R.id.start_scan);
         scan_mode = findViewById(R.id.button_scanmode);
         mapping_mode= findViewById(R.id.button_mappingmode);
@@ -130,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(LOG_TAG, "Requesting Permissions");
 
-// Request permissions
+            // Request permissions
                 ActivityCompat.requestPermissions(this,
                         new String[] {
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -148,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
     private void doStartScanWifi()  {
         this.wifiManager.startScan();
         mywifilist = (ArrayList<ScanResult>) wifiManager.getScanResults();
-        //mywifilist =  wifiManager.getScanResults();
         sb.append("\n Number of Wifi Connections: " + " " + mywifilist.size() + "\n\n");
         ;
         for (int i=0; i < mywifilist.size(); i++) {
@@ -188,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Scanning stop");
     }
 
+
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)  {
         Log.d(LOG_TAG, "onRequestPermissionsResult");
@@ -213,11 +220,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+    SwipeDetector swipeDetector = new SwipeDetector();
+
+
+
+
+
+
     private void setAdapter() {
         //int[] myImageList = new int[] {R.drawable.wifi_signal_green, R.drawable.wifi_signal_yellow,R.drawable.wifi_signal_red, R.drawable.wifi_signal, R.drawable.wifi_signal_unusable};
-
         listAdapter = new ListAdapter(getApplicationContext(), mywifilist);
-        wifilist.setAdapter(listAdapter);
+        wifilistview.setAdapter(listAdapter);
+
+        Log.i("List Adapter", "Adapter set");
+
+        //TODO: On swipe to delete from firebase
+
+        wifilistview.setOnTouchListener(swipeDetector);
+        AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(swipeDetector.swipeDetected()){
+                    if (swipeDetector.getAction() == SwipeDetector.Action.LR){
+                        System.out.println("SWIPEEEED");
+                        listAdapter.remove(position);
+                    } else {
+
+                    }
+                }
+            }
+        };
+
+        wifilistview.setOnItemClickListener(listener);
+
+
     }
 
 

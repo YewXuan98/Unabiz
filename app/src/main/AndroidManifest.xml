@@ -17,7 +17,8 @@
         android:theme="@style/Theme.Unabiz"
 
         >
-        <activity android:name=".Homepage">
+        <activity android:name=".Homepage"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,21 +26,26 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".Mapping_mode">
+        <activity android:name=".Mapping_mode"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".Mapping">
+        <activity android:name=".Mapping"
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".Testing"></activity>
+        <activity android:name=".Testing"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:resource="@array/preloaded_fonts"
+            />
     </application>
 
 </manifest>
