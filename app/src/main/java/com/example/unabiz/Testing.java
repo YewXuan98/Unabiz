@@ -182,12 +182,7 @@ public class Testing extends AppCompatActivity {
             this.imageView = PreviewImageMap;
         }
 
-        final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
-            @Override
-            public void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints) {
 
-            }
-        };
         final FireBaseUtils.AP_coordinatesCallbackInterface coordinatesCallbackInterface = new FireBaseUtils.AP_coordinatesCallbackInterface() {
             @Override
             public void onCallback(HashMap<String, HashMap<String, Integer>> coordinates, HashMap<String, HashMap<String, Integer>> mac_rssi, ArrayList<String> mac_addresses_list) {

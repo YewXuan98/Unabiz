@@ -13,41 +13,46 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FireBaseUtils {
     static DatabaseReference myDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
     public static void retrievekeys(final listCallbackInterface callbackAction) {
 
-        final HashMap<String,Integer> ap_mac = new HashMap<>();
-        final HashMap<String, HashMap<String,Integer>> key_mapping = new HashMap<>();
+        final List<String> ap_mac = new ArrayList<>();
+
+
 
         myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot key_snapshot : snapshot.getChildren()) {
-                    //Log.i("key_key" , key_snapshot.getKey());
-                    if (!ap_mac.isEmpty()){
-                    ap_mac.clear();}
-                    for (DataSnapshot subkey : key_snapshot.getChildren()){
 
-                       //Log.i("subkey_key" , subkey.getKey());
-                       //Log.i("subkey_" , (subkey.getValue()).toString());
-
-                        ap_mac.put(subkey.getKey(),  Integer.parseInt(subkey.getValue().toString()));
-                        ap_mac.remove("x");
-                        ap_mac.remove("y");
-
-                    }
-                    key_mapping.put(key_snapshot.getKey(),ap_mac);
-                    //Log.i("key_mappings", key_mapping.toString() + "\n");
+                   ap_mac.add(key_snapshot.getKey());
 
                 }
-                //Log.i("ap_mac", ap_mac.toString());
+
+                int APLatestentry = 0;
+
+
+                for (int i = 0; i < ap_mac.size() ; i++) {
+                    String currentkey = ap_mac.get(i);
+
+                    if(currentkey.substring(0,1) == "AP"){
+                        Log.i("AP latest", "Sucess check AP");
+                    }
+
+                }
+
+
+
+
+                Log.i("ap_mac", ap_mac.toString());
                 //Log.i("key_mappings", key_mapping.toString());
 
-                    callbackAction.onCallback(key_mapping);
+                    callbackAction.onCallback(ap_mac);
 
             }
 
@@ -148,13 +153,12 @@ public class FireBaseUtils {
     }
 
     interface listCallbackInterface{
-        void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints);
+        void onCallback(List<String> wifipoints);
     }
 
     interface AP_coordinatesCallbackInterface{
         void onCallback(HashMap<String, HashMap<String, Integer>> stringHashMapHashMap, HashMap<String, HashMap<String, Integer>> coordinates, ArrayList<String> mac_addresses_list);
     }
-
 
 
 }
