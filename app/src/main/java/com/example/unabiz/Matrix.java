@@ -1,6 +1,7 @@
 package com.example.unabiz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class Matrix {
@@ -17,7 +18,7 @@ class Matrix {
         {
             for(int j=0;j<this.cols;j++)
             {
-                this.data[i][j]=input[i*this.rows+j];
+                this.data[i][j]=this.flattened_data[i*this.cols+j];
             }
         }
     }
@@ -109,17 +110,6 @@ class Matrix {
         return temp;
     }
 
-    public void ns_subtract(Matrix a) {
-        Matrix temp=new Matrix(a.rows,a.cols);
-        for(int i=0;i<a.rows;i++)
-        {
-            for(int j=0;j<a.cols;j++)
-            {
-                this.data[i][j]-=a.data[i][j];
-            }
-        }
-    }
-
     public static Matrix transpose(Matrix a) {
         Matrix temp=new Matrix(a.cols,a.rows);
         for(int i=0;i<a.rows;i++)
@@ -157,7 +147,6 @@ class Matrix {
                 this.data[i][j]*=a.data[i][j];
             }
         }
-
     }
 
     public void multiply(double a) {
@@ -195,8 +184,14 @@ class Matrix {
         {
             for(int j=0;j<this.cols;j++)
             {
-                this.flattened_data[i*this.rows+j] = this.data[i][j];
+                this.flattened_data[i*this.cols+j] = this.data[i][j];
             }
         }
+    }
+
+    public static boolean isEquals(Matrix a, Matrix b){
+        a.flatten();
+        b.flatten();
+        return a.cols == b.cols && a.rows == b.rows && Arrays.equals(a.flattened_data, b.flattened_data);
     }
 }

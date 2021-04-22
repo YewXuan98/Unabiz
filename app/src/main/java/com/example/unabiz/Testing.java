@@ -230,7 +230,7 @@ public class Testing extends AppCompatActivity {
                 Log.i("TrainTest","Training NN from Testing Done");
 
 
-                while(!isDisplayReady){}
+                while(!isDisplayReady){} //busy wait
 
                 //this is for URL link
                 InputStream inputStream = new java.net.URL(URLlink).openStream();
