@@ -105,7 +105,7 @@ public class Mapping extends AppCompatActivity {
 
         final FireBaseUtils.listCallbackInterface list_of_wifi_points = new FireBaseUtils.listCallbackInterface() {
             @Override
-            public void onCallback(HashMap<String, HashMap<String,Integer>> wifipoints) {
+            public void onCallback(List<String> wifipoints) {
 
             }
         };
@@ -130,6 +130,7 @@ public class Mapping extends AppCompatActivity {
                         Log.i("x_coor", x_coor);
                         Log.i("y_coor", y_coord);
                         doStartScanWifi();
+                        FireBaseUtils.retrievekeys(list_of_wifi_points);
                         count_ap +=1;
                         Log.i("count_ap", String.valueOf(count_ap));
                         Toast.makeText(Mapping.this, "Loaded AP to database", Toast.LENGTH_SHORT).show();
@@ -202,12 +203,11 @@ public class Mapping extends AppCompatActivity {
         final WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mywifilist = (ArrayList<ScanResult>)wifiManager.getScanResults();
-        //System.out.println(mywifilist.toString());
+
 
         String AP_name = "AP" + count_ap;
         Integer x_coordinate = Integer.parseInt(x_entry.getText().toString());
         Integer y_coordinate = Integer.parseInt(y_entry.getText().toString());
-        List<String> wifi_ap_list = new ArrayList<>();
 
 
         for (int i=0; i < mywifilist.size(); i++) {
@@ -234,7 +234,6 @@ public class Mapping extends AppCompatActivity {
                         databaseReference_una.child(AP_name).child(bssid).setValue(rssi);
 
                     }
-                    wifi_ap_list.add(snapshot.child(AP_name).getKey());
                 }
 
                 @Override
@@ -246,7 +245,6 @@ public class Mapping extends AppCompatActivity {
 
 
         }
-        Log.i("WIFI AP list", wifi_ap_list.toString());
 
         x_entry.setText("");
         y_entry.setText("");
